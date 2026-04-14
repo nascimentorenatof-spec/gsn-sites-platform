@@ -13,10 +13,15 @@ export async function POST(request: Request) {
     return NextResponse.redirect(`${siteBaseUrl()}/create-site?erro=projeto-nao-encontrado`, { status: 303 });
   }
 
-  await updateProjectStatus(project.id, "paid", {
+  await updateProjectStatus(project.id, "in_progress", {
     payment_provider: project.payment_provider || "mock",
     payment_reference: project.payment_reference || `mock_${project.id}`,
-    internal_notes: "Pagamento simulado aprovado no ambiente de teste.",
+    expires_at: null, // remove expiração após pagamento
+    internal_notes: [
+      "✅ Pagamento MOCK aprovado.",
+      project.customer_notes ? `📝 Notas do cliente: ${project.customer_notes}` : "",
+      "⏳ Aguardando finalização pelo designer.",
+    ].filter(Boolean).join(" | "),
   });
 
   return NextResponse.redirect(`${siteBaseUrl()}/success/${project.id}`, { status: 303 });

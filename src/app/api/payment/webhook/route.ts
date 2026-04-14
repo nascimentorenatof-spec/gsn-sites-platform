@@ -61,9 +61,15 @@ export async function POST(request: Request) {
     const project = await getProject(projectId);
     if (!project) return NextResponse.json({ ok: false, error: "Projeto nao encontrado." }, { status: 404 });
 
-    await updateProjectStatus(project.id, "paid", {
+    // Remove o expiry (preview fica permanente) e muda para in_progress
+    await updateProjectStatus(project.id, "in_progress", {
       payment_reference: reference || project.payment_reference,
-      internal_notes: "Pagamento confirmado por webhook. A entrega final pode seguir para publicacao/dominio conforme operacao configurada.",
+      expires_at: null, // preview fica no ar até entrega
+      internal_notes: [
+        "✅ Pagamento confirmado por webhook.",
+        project.customer_notes ? `📝 Notas do cliente: ${project.customer_notes}` : "",
+        "⏳ Aguardando finalização pelo designer.",
+      ].filter(Boolean).join(" | "),
     });
 
     return NextResponse.json({ ok: true, status: "paid", projectId: project.id });

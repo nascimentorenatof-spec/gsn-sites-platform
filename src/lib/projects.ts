@@ -13,6 +13,9 @@ export async function createProject(input: {
   usedAi: boolean;
 }) {
   const supabase = getSupabaseAdmin();
+  // Preview expira em 1 hora — se o cliente pagar, o expiry é removido
+  const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+
   const { data, error } = await supabase
     .from(table)
     .insert({
@@ -24,6 +27,7 @@ export async function createProject(input: {
       assets: input.assets,
       ai_log: input.aiLog,
       used_ai: input.usedAi,
+      expires_at: expiresAt,
     })
     .select("*")
     .single();

@@ -6,7 +6,7 @@ export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   try {
-    const body = (await request.json()) as { projectId?: string };
+    const body = (await request.json()) as { projectId?: string; customerNotes?: string };
     if (!body.projectId) return NextResponse.json({ ok: false, error: "projectId obrigatorio." }, { status: 400 });
 
     const project = await getProject(body.projectId);
@@ -21,6 +21,8 @@ export async function POST(request: Request) {
       payment_provider: checkout.provider,
       payment_reference: checkout.reference,
       checkout_url: checkout.checkoutUrl,
+      // Salva as notas do cliente para o designer humano
+      customer_notes: body.customerNotes?.trim() || null,
     });
 
     return NextResponse.json({ ok: true, checkoutUrl: checkout.checkoutUrl, provider: checkout.provider });
