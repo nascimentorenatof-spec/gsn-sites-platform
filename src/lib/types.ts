@@ -48,10 +48,11 @@ export type SiteProject = {
   payment_reference?: string | null;
   checkout_url?: string | null;
   domain?: string | null;
-  expires_at?: string | null;       // null = sem expiração (pago ou entregue)
-  customer_notes?: string | null;   // notas livres do cliente no checkout
-  requested_changes?: string | null; // mudanças pedidas
-  delivery_domain?: string | null;  // domínio final informado após pagamento
+  expires_at?: string | null;
+  customer_notes?: string | null;
+  requested_changes?: string | null;
+  delivery_domain?: string | null;
+  internal_notes?: string | null;
   created_at: string;
   updated_at: string;
 };
