@@ -3,16 +3,40 @@ import { getProject, updateProjectStatus } from "@/lib/projects";
 
 export const runtime = "nodejs";
 
+async function resolvePagSeguroEvent(payload: Record<string, unknown>) {
+  const token = process.env.PAGSEGURO_TOKEN;
+  if (!token) return null;
+  const sandbox = process.env.PAGSEGURO_SANDBOX === "true";
+  const baseUrl = sandbox ? "https://sandbox.api.pagseguro.com" : "https://api.pagseguro.com";
+  const orderId = String(payload.id || "").trim();
+  if (!orderId) return null;
+  const response = await fetch(`${baseUrl}/orders/${orderId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!response.ok) return null;
+  const order = (await response.json()) as {
+    id?: string;
+    reference_id?: string;
+    charges?: { status?: string; id?: string }[];
+  };
+  const charge = order.charges?.[0];
+  const chargeStatus = (charge?.status || "").toUpperCase();
+  const paid = ["PAID", "AUTHORIZED", "COMPLETE"].includes(chargeStatus);
+  return {
+    projectId: order.reference_id || "",
+    status: paid ? "paid" : chargeStatus.toLowerCase(),
+    reference: order.id || orderId,
+  };
+}
+
 async function resolveMercadoPagoPayment(payload: Record<string, unknown>) {
   const data = payload.data as { id?: string } | undefined;
-  const paymentId = String(data?.id || payload["data.id"] || payload.id || "").trim();
+  const paymentId = String(data?.id || payload.id || "").trim();
   if (!paymentId || !process.env.MERCADOPAGO_ACCESS_TOKEN) return null;
-
   const response = await fetch(`https://api.mercadopago.com/v1/payments/${paymentId}`, {
     headers: { Authorization: `Bearer ${process.env.MERCADOPAGO_ACCESS_TOKEN}` },
   });
   if (!response.ok) return null;
-
   const payment = (await response.json()) as { status?: string; external_reference?: string; id?: string };
   return {
     projectId: payment.external_reference || "",
@@ -22,12 +46,11 @@ async function resolveMercadoPagoPayment(payload: Record<string, unknown>) {
 }
 
 function resolveStripeEvent(payload: Record<string, unknown>) {
-  const data = payload.data as { object?: { metadata?: { project_id?: string; projectId?: string }; payment_status?: string; id?: string } } | undefined;
+  const data = payload.data as { object?: { metadata?: { project_id?: string }; payment_status?: string; id?: string } } | undefined;
   const object = data?.object;
   if (!object) return null;
-
   return {
-    projectId: object.metadata?.project_id || object.metadata?.projectId || "",
+    projectId: object.metadata?.project_id || "",
     status: object.payment_status === "paid" ? "paid" : String(payload.type || ""),
     reference: object.id || "",
   };
@@ -40,20 +63,41 @@ export async function POST(request: Request) {
       ? ((await request.json()) as Record<string, unknown>)
       : Object.fromEntries((await request.formData()).entries());
 
-    const mercadoPagoPayment = String(payload.type || "").toLowerCase() === "payment" ? await resolveMercadoPagoPayment(payload) : null;
-    const stripeEvent = String(payload.type || "").startsWith("checkout.") || String(payload.type || "").startsWith("payment_") ? resolveStripeEvent(payload) : null;
+    const isPagSeguro = !!(
+      payload.charges ||
+      String(payload.type || "").startsWith("CHARGE_") ||
+      String(payload.type || "").startsWith("ORDER_")
+    );
+
+    const psEv = isPagSeguro ? await resolvePagSeguroEvent(payload) : null;
+    const mpEv = !isPagSeguro && String(payload.type || "").toLowerCase() === "payment"
+      ? await resolveMercadoPagoPayment(payload) : null;
+    const stEv = !isPagSeguro && (
+      String(payload.type || "").startsWith("checkout.") ||
+      String(payload.type || "").startsWith("payment_")
+    ) ? resolveStripeEvent(payload) : null;
 
     const projectId = String(
-      mercadoPagoPayment?.projectId ||
-        stripeEvent?.projectId ||
-        payload.project_id ||
-        payload.projectId ||
-        payload.external_reference ||
-        "",
+      psEv?.projectId || mpEv?.projectId || stEv?.projectId ||
+      payload.project_id || payload.projectId ||
+      payload.external_reference || payload.reference_id || ""
     ).trim();
-    const status = String(mercadoPagoPayment?.status || stripeEvent?.status || payload.status || payload.type || payload.action || "").toLowerCase();
-    const reference = mercadoPagoPayment?.reference || stripeEvent?.reference || String(payload.payment_reference || payload.id || "");
-    const paidStatuses = new Set(["paid", "pago", "approved", "payment.created", "payment_intent.succeeded", "checkout.session.completed"]);
+
+    const status = String(
+      psEv?.status || mpEv?.status || stEv?.status ||
+      payload.status || payload.type || payload.action || ""
+    ).toLowerCase();
+
+    const reference = String(
+      psEv?.reference || mpEv?.reference || stEv?.reference ||
+      payload.payment_reference || payload.id || ""
+    );
+
+    const paidStatuses = new Set([
+      "paid", "pago", "approved",
+      "payment.created", "payment_intent.succeeded",
+      "checkout.session.completed",
+    ]);
 
     if (!projectId) return NextResponse.json({ ok: false, error: "Projeto nao informado." }, { status: 400 });
     if (!paidStatuses.has(status)) return NextResponse.json({ ok: true, ignored: true });
@@ -61,14 +105,13 @@ export async function POST(request: Request) {
     const project = await getProject(projectId);
     if (!project) return NextResponse.json({ ok: false, error: "Projeto nao encontrado." }, { status: 404 });
 
-    // Remove o expiry (preview fica permanente) e muda para in_progress
     await updateProjectStatus(project.id, "in_progress", {
       payment_reference: reference || project.payment_reference,
-      expires_at: null, // preview fica no ar até entrega
+      expires_at: null,
       internal_notes: [
-        "✅ Pagamento confirmado por webhook.",
-        project.customer_notes ? `📝 Notas do cliente: ${project.customer_notes}` : "",
-        "⏳ Aguardando finalização pelo designer.",
+        "Pagamento confirmado por webhook.",
+        project.customer_notes ? "Notas: " + project.customer_notes : "",
+        "Aguardando finalizacao.",
       ].filter(Boolean).join(" | "),
     });
 
