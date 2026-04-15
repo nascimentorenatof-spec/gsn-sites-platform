@@ -42,7 +42,7 @@ a {
   align-items: end;
   padding: 52px;
   color: #fff;
-  background: linear-gradient(90deg, rgba(8, 20, 16, .78), rgba(8, 20, 16, .18)), url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80") center/cover;
+  background: linear-gradient(90deg, rgba(5, 12, 9, .84), rgba(5, 12, 9, .18)), url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1600&q=80") center/cover;
 }
 
 .hero-copy,
@@ -95,13 +95,32 @@ p {
 }
 
 .primary {
-  background: #0f7b63;
+  background: #0a8f68;
   color: #fff;
 }
 
 .secondary {
-  background: #f4c95d;
+  background: #ffd23f;
   color: #17211d;
+}
+
+.sales-strip {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+  padding: 36px 48px;
+  color: #fff;
+  background: #101714;
+}
+
+.sales-strip .eyebrow {
+  color: #ffd23f;
+}
+
+.sales-strip h2 {
+  max-width: 900px;
+  margin-bottom: 0;
 }
 
 .steps,
@@ -120,6 +139,16 @@ p {
   border-radius: 8px;
   background: #fff;
   padding: 24px;
+}
+
+.cta-panel {
+  color: #fff;
+  background: #101714;
+  border-color: #101714;
+}
+
+.cta-panel .eyebrow {
+  color: #ffd23f;
 }
 
 .steps strong {
@@ -232,7 +261,8 @@ textarea {
 
   .steps,
   .feature-grid,
-  .site-form {
+  .site-form,
+  .sales-strip {
     grid-template-columns: 1fr;
     padding: 28px 18px;
   }

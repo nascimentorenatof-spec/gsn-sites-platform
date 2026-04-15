@@ -10,7 +10,7 @@ export function CreateSiteForm() {
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setIsSubmitting(true);
-    setStatus("Gerando site com IA...");
+    setStatus("Montando um preview vendavel com IA...");
 
     try {
       const formData = new FormData(event.currentTarget);
@@ -35,7 +35,7 @@ export function CreateSiteForm() {
   return (
     <form className="site-form" onSubmit={submit}>
       <label>
-        Nome do negocio/site
+      Nome do negocio ou site
         <input name="businessName" maxLength={90} required placeholder="Ex: Studio Luna" />
       </label>
       <label>
@@ -107,7 +107,7 @@ export function CreateSiteForm() {
       </label>
       <div className="actions wide">
         <button className="button primary" type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Gerando..." : "Gerar site"}
+          {isSubmitting ? "Gerando preview..." : "Gerar preview para comprar"}
         </button>
         <p className="status-text" role="status">
           {status}

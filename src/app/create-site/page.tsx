@@ -4,9 +4,9 @@ export default function CreateSitePage() {
   return (
     <section className="form-band">
       <div className="form-intro">
-        <p className="eyebrow">Gerador automatizado</p>
-        <h1>Crie seu site em segundos</h1>
-        <p>Envie as informacoes principais, gere textos com IA e receba uma primeira versao pronta para preview.</p>
+        <p className="eyebrow">Compra com preview</p>
+        <h1>Gere a primeira versao do seu site e compre sem perder tempo.</h1>
+        <p>Preencha o essencial. A Getsites Ninjas monta um preview com IA para voce decidir e seguir para checkout.</p>
       </div>
       <CreateSiteForm />
     </section>

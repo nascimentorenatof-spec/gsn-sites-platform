@@ -101,7 +101,7 @@ export async function generateSiteContent(form: SiteFormInput) {
           {
             role: "system",
             content:
-              "Voce cria copy para landing pages simples em portugues do Brasil. Responda somente com JSON valido seguindo o schema. Seja claro, comercial e especifico, sem promessas falsas.",
+              "Voce cria copy para landing pages simples em portugues do Brasil com foco forte em conversao. Responda somente com JSON valido seguindo o schema. Seja direto, especifico, moderno e persuasivo. Use CTAs claros e urgentes, sem promessas falsas, sem exageros ilegais e sem linguagem generica.",
           },
           {
             role: "user",

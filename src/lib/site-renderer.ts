@@ -18,17 +18,17 @@ export function buildFallbackContent(form: SiteFormInput): GeneratedSiteContent 
     .slice(0, 5);
 
   return {
-    heroTitle: `${form.businessName}: atendimento claro e rapido em ${form.region}`,
-    heroSubtitle: form.description,
-    primaryCta: "Falar agora",
+    heroTitle: `${form.businessName}: resolva isso hoje em ${form.region}`,
+    heroSubtitle: `${form.description} Veja a oferta, tire a duvida e chame agora para dar o proximo passo.`,
+    primaryCta: "Quero resolver agora",
     aboutTitle: `Sobre ${form.businessName}`,
-    aboutText: `${form.businessName} atende ${form.region} com foco em praticidade, clareza e uma experiencia simples do primeiro contato ate a entrega.`,
-    benefits: ["Atendimento direto", "Oferta bem explicada", "Contato sem friccao"],
-    services: services.length > 0 ? services : ["Atendimento personalizado", "Orcamento rapido", "Suporte ao cliente"],
-    proofTitle: "Uma presenca digital pronta para vender",
-    proofText: "A pagina organiza as informacoes essenciais para o visitante entender, confiar e entrar em contato.",
-    contactTitle: "Vamos conversar?",
-    contactText: `Entre em contato por ${form.contact} e receba atendimento para ${form.segment.toLowerCase()}.`,
+    aboutText: `${form.businessName} atende ${form.region} com foco em resposta rapida, oferta clara e um caminho simples para o cliente tomar decisao sem enrolacao.`,
+    benefits: ["Resposta mais rapida", "Oferta sem confusao", "Contato em destaque"],
+    services: services.length > 0 ? services : ["Atendimento personalizado", "Orcamento rapido", "Proxima etapa guiada"],
+    proofTitle: "Uma pagina feita para transformar interesse em contato",
+    proofText: "O visitante entende o que voce oferece, por que vale falar com voce e qual botao precisa apertar agora.",
+    contactTitle: "Pronto para avancar?",
+    contactText: `Chame por ${form.contact} e garanta atendimento para ${form.segment.toLowerCase()} em ${form.region}.`,
     seoTitle: `${form.businessName} em ${form.region}`,
     seoDescription: form.description.slice(0, 155),
   };

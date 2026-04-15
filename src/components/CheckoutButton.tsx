@@ -8,7 +8,7 @@ export function CheckoutButton({ projectId }: { projectId: string }) {
 
   async function startCheckout() {
     setIsLoading(true);
-    setStatus("Criando checkout...");
+    setStatus("Preparando compra...");
     try {
       const response = await fetch("/api/checkout", {
         method: "POST",
@@ -27,7 +27,7 @@ export function CheckoutButton({ projectId }: { projectId: string }) {
   return (
     <div className="preview-actions">
       <button className="button primary" type="button" onClick={startCheckout} disabled={isLoading}>
-        {isLoading ? "Abrindo checkout..." : "Ir para checkout"}
+        {isLoading ? "Abrindo checkout..." : "Comprar este site agora"}
       </button>
       <span className="status-text">{status}</span>
     </div>
