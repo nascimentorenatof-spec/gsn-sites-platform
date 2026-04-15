@@ -3,6 +3,26 @@ import type { GeneratedSiteContent, SiteFormInput, SiteProject, SiteStatus, Uplo
 
 const table = "site_projects";
 
+function buildProvisioningNotes(formData: SiteFormInput) {
+  const rules = formData.structuredData?.generation_rules;
+  if (!rules) return null;
+
+  return JSON.stringify({
+    ownerEmail: formData.structuredData?.contact.email || null,
+    createAdminArea: rules.createAdminArea,
+    adminScope: rules.adminScope,
+    createClientPortal: rules.createClientPortal,
+    createLeadInbox: rules.createLeadInbox,
+    createMediaLibrary: rules.createMediaLibrary,
+    createDomainEmailArea: rules.createDomainEmailArea,
+    createWebmailShortcut: rules.createWebmailShortcut,
+    allowLayoutEdit: rules.allowLayoutEdit,
+    allowBlockToggle: rules.allowBlockToggle,
+    createRevisionHistory: rules.createRevisionHistory,
+    createDraftAndPublishedVersions: rules.createDraftAndPublishedVersions,
+  });
+}
+
 export async function createProject(input: {
   id: string;
   formData: SiteFormInput;
@@ -28,6 +48,8 @@ export async function createProject(input: {
       ai_log: input.aiLog,
       used_ai: input.usedAi,
       expires_at: expiresAt,
+      customer_email: input.formData.structuredData?.contact.email || null,
+      internal_notes: buildProvisioningNotes(input.formData),
     })
     .select("*")
     .single();

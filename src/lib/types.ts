@@ -1,5 +1,81 @@
 export type SiteStatus = "draft" | "preview" | "checkout_pending" | "paid" | "in_progress" | "delivered" | "failed" | "expired";
 
+export type SitePlan = "basic" | "standard";
+
+export type ContactPreference = "whatsapp" | "form" | "both";
+
+export type SiteObjective = "generate_leads" | "receive_messages" | "present_company" | "sell_services";
+
+export type AdminScope =
+  | "texts"
+  | "images"
+  | "services"
+  | "prices"
+  | "contact_info"
+  | "faq"
+  | "testimonials"
+  | "seo_basic";
+
+export type GenerationRules = {
+  generateAiTexts: boolean;
+  allowAiCompletion: boolean;
+  createAdminArea: boolean;
+  adminScope: AdminScope[];
+  createClientPortal: boolean;
+  createLeadInbox: boolean;
+  createMediaLibrary: boolean;
+  createDomainEmailArea: boolean;
+  createWebmailShortcut: boolean;
+  allowLayoutEdit: boolean;
+  allowBlockToggle: boolean;
+  createRevisionHistory: boolean;
+  createDraftAndPublishedVersions: boolean;
+  generateDefaultPrivacyPolicy: boolean;
+  generateDefaultSeo: boolean;
+  fallbackToAiForMissingFields: boolean;
+};
+
+export type StructuredSiteFormInput = {
+  business: {
+    name: string;
+    segment: string;
+    region: string;
+  };
+  contact: {
+    whatsapp: string;
+    email?: string;
+    instagram?: string;
+    preferred: ContactPreference;
+  };
+  offer: {
+    summary: string;
+    items: string;
+    mainItem: string;
+  };
+  audience: {
+    customer: string;
+    problem: string;
+    differentiator: string;
+  };
+  branding: {
+    visualStyle: string;
+    primaryColor: string;
+    referenceSite?: string;
+  };
+  structure: {
+    plan: SitePlan;
+    pages: string[];
+    objective: SiteObjective;
+  };
+  domain: {
+    desiredDomain?: string;
+    alreadyHasDomain: boolean;
+    createDomainEmailArea: boolean;
+    createWebmailShortcut: boolean;
+  };
+  generation_rules: GenerationRules;
+};
+
 export type SiteFormInput = {
   businessName: string;
   segment: string;
@@ -11,6 +87,7 @@ export type SiteFormInput = {
   contact: string;
   desiredDomain?: string;
   generateAiTexts: boolean;
+  structuredData?: StructuredSiteFormInput;
 };
 
 export type UploadedAsset = {
@@ -35,6 +112,9 @@ export type GeneratedSiteContent = {
   contactText: string;
   seoTitle: string;
   seoDescription: string;
+  faq: Array<{ question: string; answer: string }>;
+  testimonials: Array<{ name: string; quote: string }>;
+  privacyPolicy: string;
 };
 
 export type SiteProject = {

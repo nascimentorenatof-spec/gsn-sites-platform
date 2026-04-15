@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Get Sites Ninjas | Sites prontos para vender",
-  description: "Compre uma landing page gerada com IA, preview imediato e entrega organizada.",
+  title: "GetSitesNinjas | Sites rapidos para pequenos negocios",
+  description: "Site profissional com preview gerado por IA, checkout direto e entrega organizada para pequenos negocios.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -12,9 +12,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <header className="topbar">
           <a className="brand" href="/">
-            getsitesninjas.com.br
+            <span className="brand-mark">GSN</span>
+            <span>GetSitesNinjas</span>
           </a>
           <nav>
+            <a href="/#beneficios">Beneficios</a>
+            <a href="/#pacotes">Pacotes</a>
             <a href="/create-site">Comprar meu site agora</a>
           </nav>
         </header>

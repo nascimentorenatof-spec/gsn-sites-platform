@@ -18,6 +18,9 @@ const generationSchema = {
     "contactText",
     "seoTitle",
     "seoDescription",
+    "faq",
+    "testimonials",
+    "privacyPolicy",
   ],
   properties: {
     heroTitle: { type: "string" },
@@ -33,6 +36,35 @@ const generationSchema = {
     contactText: { type: "string" },
     seoTitle: { type: "string" },
     seoDescription: { type: "string" },
+    faq: {
+      type: "array",
+      minItems: 3,
+      maxItems: 5,
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["question", "answer"],
+        properties: {
+          question: { type: "string" },
+          answer: { type: "string" },
+        },
+      },
+    },
+    testimonials: {
+      type: "array",
+      minItems: 2,
+      maxItems: 3,
+      items: {
+        type: "object",
+        additionalProperties: false,
+        required: ["name", "quote"],
+        properties: {
+          name: { type: "string" },
+          quote: { type: "string" },
+        },
+      },
+    },
+    privacyPolicy: { type: "string" },
   },
 };
 
@@ -64,6 +96,9 @@ function normalizeGeneratedContent(value: GeneratedSiteContent, fallback: Genera
     contactText: value.contactText || fallback.contactText,
     seoTitle: value.seoTitle || fallback.seoTitle,
     seoDescription: (value.seoDescription || fallback.seoDescription).slice(0, 160),
+    faq: Array.isArray(value.faq) && value.faq.length >= 3 ? value.faq.slice(0, 5) : fallback.faq,
+    testimonials: Array.isArray(value.testimonials) && value.testimonials.length >= 2 ? value.testimonials.slice(0, 3) : fallback.testimonials,
+    privacyPolicy: value.privacyPolicy || fallback.privacyPolicy,
   };
 }
 
@@ -101,7 +136,7 @@ export async function generateSiteContent(form: SiteFormInput) {
           {
             role: "system",
             content:
-              "Voce cria copy para landing pages simples em portugues do Brasil com foco forte em conversao. Responda somente com JSON valido seguindo o schema. Seja direto, especifico, moderno e persuasivo. Use CTAs claros e urgentes, sem promessas falsas, sem exageros ilegais e sem linguagem generica.",
+              "Voce cria conteudo editavel para sites simples em portugues do Brasil com foco forte em conversao. Responda somente com JSON valido seguindo o schema. Seja direto, especifico, moderno e persuasivo. Use CTAs claros e urgentes, sem promessas falsas, sem exageros ilegais e sem linguagem generica. Gere textos prontos para uma area administrativa onde o cliente possa editar textos, imagens, servicos, precos, contato, FAQ, depoimentos e SEO basico. Nunca invente credenciais, acessos, dominios registrados ou dados tecnicos de webmail.",
           },
           {
             role: "user",
@@ -113,6 +148,17 @@ export async function generateSiteContent(form: SiteFormInput) {
               servicos: form.services,
               regiao: form.region,
               contato: form.contact,
+              dadosEstruturados: form.structuredData,
+              requisitosDeConteudo: {
+                areasEditaveis: form.structuredData?.generation_rules.adminScope,
+                gerarPoliticaDePrivacidade: form.structuredData?.generation_rules.generateDefaultPrivacyPolicy,
+                gerarSeoPadrao: form.structuredData?.generation_rules.generateDefaultSeo,
+                portalCliente: form.structuredData?.generation_rules.createClientPortal,
+                caixaDeLeads: form.structuredData?.generation_rules.createLeadInbox,
+                bibliotecaDeMidia: form.structuredData?.generation_rules.createMediaLibrary,
+                dominioEmail: form.structuredData?.generation_rules.createDomainEmailArea,
+                atalhoWebmail: form.structuredData?.generation_rules.createWebmailShortcut,
+              },
             }),
           },
         ],

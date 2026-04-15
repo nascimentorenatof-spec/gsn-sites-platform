@@ -1,25 +1,34 @@
 export default function HomePage() {
+  const customPlanUrl = "https://wa.me/5511999999999?text=Quero%20um%20site%20personalizado%20sob%20consulta";
+
   return (
     <>
       <section className="hero">
-        <div className="hero-copy">
-          <p className="eyebrow">Getsites Ninjas | landing pages sob demanda</p>
-          <h1>Compre um site pronto para vender antes que seu concorrente pareca maior que voce.</h1>
+        <div className="hero-copy section-inner">
+          <p className="pill">Preview com IA + acabamento humano</p>
+          <h1>Site profissional rapido, claro e pronto para vender.</h1>
           <p>
-            Preencha o briefing, gere um preview com IA e avance para o checkout. Sem reuniao infinita, sem espera vaga, sem site parado no "vamos ver".
+            Preencha o briefing, veja uma primeira versao do site e avance para a compra sem reuniao infinita. Ideal para MEIs, prestadores de servico e pequenos negocios que precisam parecer confiaveis agora.
           </p>
-          <a className="button primary" href="/create-site">
-            Quero meu site pronto agora
-          </a>
+          <div className="hero-actions">
+            <a className="button primary" href="/create-site">
+              Gerar preview agora
+            </a>
+            <a className="button dark" href="#pacotes">
+              Ver pacotes
+            </a>
+          </div>
+          <p className="microcopy">Pix aceito. Sem contrato longo. Revisoes inclusas.</p>
         </div>
       </section>
-      <section className="sales-strip">
-        <p className="eyebrow">Compra direta</p>
-        <h2>Seu negocio precisa parecer confiavel hoje, nao depois de 14 mensagens no WhatsApp.</h2>
-        <a className="button secondary" href="/create-site">
-          Gerar preview e comprar
-        </a>
+
+      <section className="proof-strip" aria-label="Diferenciais">
+        <span>Entrega em ate 5 dias</span>
+        <span>Preview antes da compra</span>
+        <span>Responsivo no celular</span>
+        <span>Dominio e hospedagem orientados</span>
       </section>
+
       <section className="steps">
         <article>
           <strong>1</strong>
@@ -37,6 +46,95 @@ export default function HomePage() {
           <p>Gostou do caminho? Pague e o projeto fica registrado para entrega operacional.</p>
         </article>
       </section>
+
+      <section id="beneficios" className="benefits-section">
+        <div className="section-heading">
+          <p className="eyebrow">Beneficios</p>
+          <h2>Rapidez, preco justo e zero complicacao.</h2>
+          <p>Uma estrutura direta para transformar seu servico em uma pagina comercial bonita e objetiva.</p>
+        </div>
+        <div className="benefit-grid">
+          <article className="benefit-card">
+            <span>01</span>
+            <h3>Em ate 5 dias</h3>
+            <p>O fluxo foi pensado para sair do briefing e chegar na decisao sem semanas de espera.</p>
+          </article>
+          <article className="benefit-card">
+            <span>02</span>
+            <h3>A partir de R$ 390</h3>
+            <p>Uma entrada acessivel para quem precisa vender com mais credibilidade.</p>
+          </article>
+          <article className="benefit-card">
+            <span>03</span>
+            <h3>Feito para celular</h3>
+            <p>Layout responsivo para o cliente abrir pelo WhatsApp, Instagram ou Google.</p>
+          </article>
+          <article className="benefit-card">
+            <span>04</span>
+            <h3>Texto com IA</h3>
+            <p>Voce informa o essencial e o sistema ajuda a organizar a primeira versao.</p>
+          </article>
+        </div>
+      </section>
+
+      <section className="image-band" aria-label="Mesa de trabalho com notebook">
+        <div>
+          <p className="eyebrow">Visual profissional</p>
+          <h2>Seu negocio com presenca de empresa grande, sem processo pesado.</h2>
+        </div>
+      </section>
+
+      <section id="pacotes" className="pricing-section">
+        <div className="section-heading">
+          <p className="pill">Pacotes</p>
+          <h2>Escolha o tamanho certo para comecar.</h2>
+          <p>Sem letra miuda. Sem mensalidade obrigatoria nos pacotes principais.</p>
+        </div>
+        <div className="pricing-grid three-plans">
+          <article className="price-card">
+            <p className="eyebrow">Basico</p>
+            <h3>R$ 390</h3>
+            <p>Pagamento unico</p>
+            <ul>
+              <li>1 pagina profissional</li>
+              <li>Botao de contato</li>
+              <li>Layout responsivo</li>
+              <li>Entrega em ate 5 dias</li>
+            </ul>
+            <a className="button outline" href="/create-site?plan=basic">Comecar pelo basico</a>
+          </article>
+          <article className="price-card featured">
+            <p className="popular-badge">Mais escolhido</p>
+            <p className="eyebrow">Padrao</p>
+            <h3>R$ 690</h3>
+            <p>Pagamento unico</p>
+            <ul>
+              <li>3 paginas profissionais</li>
+              <li>Formulario de contato</li>
+              <li>SEO basico configurado</li>
+              <li>Dominio e hospedagem orientados</li>
+            </ul>
+            <a className="button primary" href="/create-site?plan=standard">Quero o pacote padrao</a>
+          </article>
+          <article className="price-card premium">
+            <p className="popular-badge">Mais completo</p>
+            <p className="eyebrow">Personalizado</p>
+            <h3>Sob consulta</h3>
+            <p>Atendimento manual</p>
+            <ul>
+              <li>Desenvolvimento sob medida</li>
+              <li>Layout exclusivo</li>
+              <li>Funcionalidades avancadas</li>
+              <li>Integracoes personalizadas</li>
+              <li>Atendimento dedicado</li>
+            </ul>
+            <a className="button dark" href={customPlanUrl} target="_blank" rel="noreferrer">
+              Falar com especialista
+            </a>
+          </article>
+        </div>
+      </section>
+
       <section className="feature-grid">
         <article className="panel">
           <p className="eyebrow">Para quem vende</p>

@@ -11,6 +11,7 @@ function escapeHtml(value: string) {
 }
 
 export function buildFallbackContent(form: SiteFormInput): GeneratedSiteContent {
+  const structured = form.structuredData;
   const services = form.services
     .split(/[,;\n]/)
     .map((item) => item.trim())
@@ -18,12 +19,16 @@ export function buildFallbackContent(form: SiteFormInput): GeneratedSiteContent 
     .slice(0, 5);
 
   return {
-    heroTitle: `${form.businessName}: resolva isso hoje em ${form.region}`,
-    heroSubtitle: `${form.description} Veja a oferta, tire a duvida e chame agora para dar o proximo passo.`,
-    primaryCta: "Quero resolver agora",
+    heroTitle: structured?.offer.mainItem ? `${structured.offer.mainItem} com ${form.businessName}` : `${form.businessName}: resolva isso hoje em ${form.region}`,
+    heroSubtitle: structured?.audience.problem ? `${structured.audience.problem} ${structured.audience.differentiator}` : `${form.description} Veja a oferta, tire a duvida e chame agora para dar o proximo passo.`,
+    primaryCta: structured?.contact.preferred === "form" ? "Enviar mensagem" : "Chamar agora",
     aboutTitle: `Sobre ${form.businessName}`,
-    aboutText: `${form.businessName} atende ${form.region} com foco em resposta rapida, oferta clara e um caminho simples para o cliente tomar decisao sem enrolacao.`,
-    benefits: ["Resposta mais rapida", "Oferta sem confusao", "Contato em destaque"],
+    aboutText: structured?.audience.customer
+      ? `${form.businessName} atende ${structured.audience.customer} em ${form.region}, com uma oferta clara e um caminho simples para pedir atendimento.`
+      : `${form.businessName} atende ${form.region} com foco em resposta rapida, oferta clara e um caminho simples para o cliente tomar decisao sem enrolacao.`,
+    benefits: structured?.audience.differentiator
+      ? ["Atendimento claro", structured.audience.differentiator, "Contato em destaque"]
+      : ["Resposta mais rapida", "Oferta sem confusao", "Contato em destaque"],
     services: services.length > 0 ? services : ["Atendimento personalizado", "Orcamento rapido", "Proxima etapa guiada"],
     proofTitle: "Uma pagina feita para transformar interesse em contato",
     proofText: "O visitante entende o que voce oferece, por que vale falar com voce e qual botao precisa apertar agora.",
@@ -31,15 +36,47 @@ export function buildFallbackContent(form: SiteFormInput): GeneratedSiteContent 
     contactText: `Chame por ${form.contact} e garanta atendimento para ${form.segment.toLowerCase()} em ${form.region}.`,
     seoTitle: `${form.businessName} em ${form.region}`,
     seoDescription: form.description.slice(0, 155),
+    faq: [
+      {
+        question: `Como funciona o atendimento da ${form.businessName}?`,
+        answer: `Voce chama pelo contato indicado, explica o que precisa e recebe a orientacao para o proximo passo em ${form.region}.`,
+      },
+      {
+        question: "Posso pedir um orcamento antes de contratar?",
+        answer: "Sim. O primeiro contato serve para entender sua necessidade, alinhar detalhes e indicar a melhor opcao.",
+      },
+      {
+        question: "Quais informacoes devo enviar?",
+        answer: "Envie seu objetivo, prazo desejado e qualquer detalhe importante sobre o servico ou produto que procura.",
+      },
+    ],
+    testimonials: [
+      {
+        name: "Cliente satisfeito",
+        quote: "Atendimento claro, resposta rapida e uma experiencia simples desde o primeiro contato.",
+      },
+      {
+        name: "Cliente da regiao",
+        quote: "Foi facil entender os servicos e escolher o melhor caminho para avancar.",
+      },
+    ],
+    privacyPolicy: `${form.businessName} utiliza os dados enviados pelo formulario apenas para responder contatos, preparar atendimentos e manter a comunicacao solicitada. As informacoes nao devem ser vendidas ou compartilhadas com terceiros sem necessidade operacional ou obrigacao legal.`,
   };
 }
 
 export function renderLandingPage(form: SiteFormInput, content: GeneratedSiteContent, assets: UploadedAsset[]) {
   const palette = palettes[form.palette as keyof typeof palettes] || palettes.verde;
+  const structured = form.structuredData;
+  const primaryColor = structured?.branding.primaryColor || palette.primary;
+  const contactHref = structured?.contact.whatsapp
+    ? `https://wa.me/${structured.contact.whatsapp.replace(/\D/g, "")}`
+    : `mailto:${form.contact}`;
   const heroImage = assets[0]?.publicUrl || fallbackImage;
   const secondImage = assets[1]?.publicUrl || heroImage;
   const services = content.services.slice(0, 6);
   const benefits = content.benefits.slice(0, 4);
+  const faq = content.faq.slice(0, 5);
+  const testimonials = content.testimonials.slice(0, 3);
 
   return `<!doctype html>
 <html lang="pt-BR">
@@ -49,7 +86,7 @@ export function renderLandingPage(form: SiteFormInput, content: GeneratedSiteCon
   <title>${escapeHtml(content.seoTitle)}</title>
   <meta name="description" content="${escapeHtml(content.seoDescription)}">
   <style>
-    :root{--primary:${palette.primary};--secondary:${palette.secondary};--ink:${palette.ink};--surface:${palette.surface}}
+    :root{--primary:${primaryColor};--secondary:${palette.secondary};--ink:${palette.ink};--surface:${palette.surface}}
     *{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:var(--ink);background:#fff}a{color:inherit}
     .hero{min-height:78vh;display:grid;align-items:end;padding:44px;background:linear-gradient(90deg,rgba(0,0,0,.7),rgba(0,0,0,.18)),url("${heroImage}") center/cover;color:#fff}
     .hero>div{max-width:780px}.eyebrow{text-transform:uppercase;letter-spacing:0;font-size:13px;font-weight:800;color:var(--secondary)}
@@ -67,9 +104,11 @@ export function renderLandingPage(form: SiteFormInput, content: GeneratedSiteCon
     <section><p class="eyebrow">Diferenciais</p><h2>${escapeHtml(content.proofTitle)}</h2><p>${escapeHtml(content.proofText)}</p><div class="grid">${benefits.map((benefit) => `<article class="card"><h3>${escapeHtml(benefit)}</h3><p>Informacao direta para ajudar o visitante a decidir com seguranca.</p></article>`).join("")}</div></section>
     <section class="about"><div><p class="eyebrow">Sobre</p><h2>${escapeHtml(content.aboutTitle)}</h2><p>${escapeHtml(content.aboutText)}</p></div><img src="${secondImage}" alt="${escapeHtml(form.businessName)}"></section>
     <section><p class="eyebrow">Servicos</p><h2>O que voce encontra aqui</h2><div class="grid">${services.map((service) => `<article class="card"><h3>${escapeHtml(service)}</h3><p>Atendimento pensado para resolver com clareza e agilidade.</p></article>`).join("")}</div></section>
-    <section id="contato" class="contact"><div><p class="eyebrow">Contato</p><h2>${escapeHtml(content.contactTitle)}</h2><p>${escapeHtml(content.contactText)}</p></div><a class="button" href="mailto:${escapeHtml(form.contact)}">${escapeHtml(form.contact)}</a></section>
+    <section><p class="eyebrow">Depoimentos</p><h2>Confiança para dar o proximo passo</h2><div class="grid">${testimonials.map((testimonial) => `<article class="card"><h3>${escapeHtml(testimonial.name)}</h3><p>${escapeHtml(testimonial.quote)}</p></article>`).join("")}</div></section>
+    <section><p class="eyebrow">Duvidas frequentes</p><h2>Perguntas comuns</h2><div class="grid">${faq.map((item) => `<article class="card"><h3>${escapeHtml(item.question)}</h3><p>${escapeHtml(item.answer)}</p></article>`).join("")}</div></section>
+    <section id="contato" class="contact"><div><p class="eyebrow">Contato</p><h2>${escapeHtml(content.contactTitle)}</h2><p>${escapeHtml(content.contactText)}</p></div><a class="button" href="${escapeHtml(contactHref)}">${escapeHtml(form.contact)}</a></section>
   </main>
-  <footer>${escapeHtml(form.businessName)}. Atendimento em ${escapeHtml(form.region)}.</footer>
+  <footer>${escapeHtml(form.businessName)}. Atendimento em ${escapeHtml(form.region)}.<br><small>${escapeHtml(content.privacyPolicy)}</small></footer>
 </body>
 </html>`;
 }
