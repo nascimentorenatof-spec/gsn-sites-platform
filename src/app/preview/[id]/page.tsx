@@ -172,14 +172,13 @@ export default function PreviewPage() {
       </div>
 
       {/* Preview iframe */}
-      <div style={{ position: "relative" }}>
+      <div style={{ background: "#fff", borderBottom: "1px solid #e2e8f0" }}>
         <iframe
           title={`Preview de ${project.form_data.businessName}`}
           srcDoc={project.preview_html}
-          style={{ width: "100%", height: "70vh", border: "none", display: "block" }}
+          sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin"
+          style={{ width: "100%", height: "calc(100vh - 96px)", minHeight: 620, border: "none", display: "block" }}
         />
-        {/* Overlay para bloquear interação no iframe */}
-        <div style={{ position: "absolute", inset: 0, cursor: "default" }} />
       </div>
 
       {/* Painel de checkout */}
