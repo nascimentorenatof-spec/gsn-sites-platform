@@ -246,11 +246,22 @@ export function CreateSiteForm() {
         method: "POST",
         body: formData,
       });
-      const responsePayload = (await response.json()) as { ok: boolean; error?: string; previewUrl?: string; errors?: Record<string, string> };
+      const responsePayload = (await response.json()) as {
+        ok: boolean;
+        error?: string;
+        previewUrl?: string;
+        errors?: Record<string, string>;
+        usedAi?: boolean;
+        aiLog?: string;
+      };
 
       if (!response.ok || !responsePayload.ok) {
         const message = responsePayload.errors ? Object.values(responsePayload.errors).join(" ") : responsePayload.error || "Nao foi possivel gerar o site.";
         throw new Error(message);
+      }
+
+      if (state.generateAiTexts && responsePayload.usedAi === false) {
+        throw new Error(`A OpenAI nao gerou os textos. Detalhe: ${responsePayload.aiLog || "sem log"}`);
       }
 
       window.location.href = responsePayload.previewUrl || "/";

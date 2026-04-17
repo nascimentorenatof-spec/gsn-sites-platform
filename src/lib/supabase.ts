@@ -4,6 +4,10 @@ import { requiredEnv } from "@/lib/env";
 let adminClient: SupabaseClient | null = null;
 let browserClient: SupabaseClient | null = null;
 
+export function isSupabaseConfigured() {
+  return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+}
+
 export function getSupabaseAdmin() {
   if (!adminClient) {
     adminClient = createClient(requiredEnv("SUPABASE_URL"), requiredEnv("SUPABASE_SERVICE_ROLE_KEY"), {

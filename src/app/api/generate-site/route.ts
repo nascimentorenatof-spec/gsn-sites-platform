@@ -6,7 +6,7 @@ import { uploadProjectAssets } from "@/lib/storage";
 import { parseSiteForm, validateImages } from "@/lib/validation";
 
 export const runtime = "nodejs";
-export const maxDuration = 30;
+export const maxDuration = 60;
 
 export async function POST(request: Request) {
   try {
@@ -42,6 +42,7 @@ export async function POST(request: Request) {
       projectId: project.id,
       previewUrl: `/preview/${project.id}`,
       usedAi: generation.usedAi,
+      aiLog: generation.log,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Erro inesperado ao gerar site.";

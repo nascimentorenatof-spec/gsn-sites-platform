@@ -1,8 +1,20 @@
-import { getSupabaseAdmin, storageBucket } from "@/lib/supabase";
+import { getSupabaseAdmin, isSupabaseConfigured, storageBucket } from "@/lib/supabase";
 import { slugify } from "@/lib/validation";
 import type { UploadedAsset } from "@/lib/types";
 
 export async function uploadProjectAssets(projectId: string, files: File[]) {
+  if (!isSupabaseConfigured()) {
+    return Promise.all(
+      files.map(async (file) => ({
+        path: `${projectId}/${file.name}`,
+        publicUrl: `data:${file.type};base64,${Buffer.from(await file.arrayBuffer()).toString("base64")}`,
+        name: file.name,
+        size: file.size,
+        contentType: file.type,
+      })),
+    );
+  }
+
   const supabase = getSupabaseAdmin();
   const bucket = storageBucket();
   const assets: UploadedAsset[] = [];

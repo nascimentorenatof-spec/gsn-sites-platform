@@ -1,4 +1,5 @@
-import { getSupabaseAdmin } from "@/lib/supabase";
+import { createLocalProject, getLocalProject, updateLocalProject } from "@/lib/local-projects";
+import { getSupabaseAdmin, isSupabaseConfigured } from "@/lib/supabase";
 import type { GeneratedSiteContent, SiteFormInput, SiteProject, SiteStatus, UploadedAsset } from "@/lib/types";
 
 const table = "site_projects";
@@ -32,33 +33,48 @@ export async function createProject(input: {
   aiLog: string;
   usedAi: boolean;
 }) {
-  const supabase = getSupabaseAdmin();
-  // Preview expira em 1 hora — se o cliente pagar, o expiry é removido
   const expiresAt = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+  const now = new Date().toISOString();
+  const provisioningNotes = buildProvisioningNotes(input.formData);
+  const payload = {
+    id: input.id,
+    status: "preview",
+    form_data: input.formData,
+    generated_content: input.generatedContent,
+    preview_html: input.previewHtml,
+    assets: input.assets,
+    ai_log: input.aiLog,
+    used_ai: input.usedAi,
+    expires_at: expiresAt,
+    customer_email: input.formData.structuredData?.contact.email || null,
+    internal_notes: provisioningNotes,
+  };
 
-  const { data, error } = await supabase
-    .from(table)
-    .insert({
+  if (!isSupabaseConfigured()) {
+    return createLocalProject({
       id: input.id,
       status: "preview",
       form_data: input.formData,
       generated_content: input.generatedContent,
       preview_html: input.previewHtml,
       assets: input.assets,
-      ai_log: input.aiLog,
-      used_ai: input.usedAi,
       expires_at: expiresAt,
-      customer_email: input.formData.structuredData?.contact.email || null,
-      internal_notes: buildProvisioningNotes(input.formData),
-    })
-    .select("*")
-    .single();
+      internal_notes: provisioningNotes,
+      created_at: now,
+      updated_at: now,
+    } as SiteProject);
+  }
+
+  const supabase = getSupabaseAdmin();
+  const { data, error } = await supabase.from(table).insert(payload).select("*").single();
 
   if (error) throw new Error(`Falha ao salvar projeto: ${error.message}`);
   return data as SiteProject;
 }
 
 export async function getProject(id: string) {
+  if (!isSupabaseConfigured()) return getLocalProject(id);
+
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase.from(table).select("*").eq("id", id).single();
   if (error) return null;
@@ -66,6 +82,12 @@ export async function getProject(id: string) {
 }
 
 export async function updateProject(id: string, values: Partial<SiteProject> & Record<string, unknown>) {
+  if (!isSupabaseConfigured()) {
+    const updated = await updateLocalProject(id, values);
+    if (!updated) throw new Error("Projeto local nao encontrado.");
+    return updated;
+  }
+
   const supabase = getSupabaseAdmin();
   const { data, error } = await supabase
     .from(table)

@@ -1,5 +1,6 @@
 import type { GeneratedSiteContent, SiteFormInput } from "@/lib/types";
 import { buildFallbackContent } from "@/lib/site-renderer";
+import { envValue } from "@/lib/env";
 
 const generationSchema = {
   type: "object",
@@ -81,6 +82,15 @@ function extractOutputText(response: unknown) {
   );
 }
 
+function compactDiagnostic(value: string) {
+  return value
+    .replace(envValue("OPENAI_API_KEY") || "", "[redacted]")
+    .replace(/sk-[A-Za-z0-9_*.-]+/g, "[redacted]")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 220);
+}
+
 function normalizeGeneratedContent(value: GeneratedSiteContent, fallback: GeneratedSiteContent): GeneratedSiteContent {
   return {
     heroTitle: value.heroTitle || fallback.heroTitle,
@@ -104,25 +114,27 @@ function normalizeGeneratedContent(value: GeneratedSiteContent, fallback: Genera
 
 export async function generateSiteContent(form: SiteFormInput) {
   const fallback = buildFallbackContent(form);
+  const openAiApiKey = envValue("OPENAI_API_KEY");
+  const openAiModel = envValue("OPENAI_MODEL") || "gpt-4.1-mini";
 
-  if (!form.generateAiTexts || !process.env.OPENAI_API_KEY) {
+  if (!form.generateAiTexts || !openAiApiKey) {
     return { content: fallback, usedAi: false, log: "fallback_without_ai" };
   }
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 18000);
+  const timeout = setTimeout(() => controller.abort(), 26000);
 
   try {
     const response = await fetch("https://api.openai.com/v1/responses", {
       method: "POST",
       signal: controller.signal,
       headers: {
-        Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        Authorization: `Bearer ${openAiApiKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: process.env.OPENAI_MODEL || "gpt-4.1-mini",
-        max_output_tokens: 1200,
+        model: openAiModel,
+        max_output_tokens: 1800,
         temperature: 0.4,
         text: {
           format: {
@@ -166,17 +178,24 @@ export async function generateSiteContent(form: SiteFormInput) {
     });
 
     if (!response.ok) {
-      return { content: fallback, usedAi: false, log: `openai_http_${response.status}` };
+      const diagnostic = compactDiagnostic(await response.text());
+      console.warn("OpenAI generation failed", { status: response.status, diagnostic });
+      return { content: fallback, usedAi: false, log: `openai_http_${response.status}_${diagnostic}` };
     }
 
     const payload = await response.json();
     const text = extractOutputText(payload);
-    if (!text) return { content: fallback, usedAi: false, log: "openai_empty_response" };
+    if (!text) {
+      const diagnostic = compactDiagnostic(JSON.stringify(payload));
+      console.warn("OpenAI returned no output text", { diagnostic });
+      return { content: fallback, usedAi: false, log: `openai_empty_response_${diagnostic}` };
+    }
 
     const parsed = JSON.parse(text) as GeneratedSiteContent;
     return { content: normalizeGeneratedContent(parsed, fallback), usedAi: true, log: "openai_success" };
   } catch (error) {
     const message = error instanceof Error ? error.message : "unknown_error";
+    console.warn("OpenAI generation error", { message: compactDiagnostic(message) });
     return { content: fallback, usedAi: false, log: `openai_error_${message.slice(0, 60)}` };
   } finally {
     clearTimeout(timeout);
