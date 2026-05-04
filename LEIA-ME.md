@@ -127,12 +127,49 @@ Acesse http://localhost:3000
 
 ---
 
-## Próximos passos (quando estiver vendendo)
+## Painel admin (/admin.html) e banco de dados
 
-1. **Webhook do PagSeguro** (`api/webhook-pagseguro.js`) pra receber notificação de pagamento confirmado e te avisar no WhatsApp/email automaticamente.
-2. **Banco de dados** (Vercel Postgres ou Supabase) pra salvar todos os pedidos.
-3. **Cobrança recorrente** dos R$ 97/mês — PagSeguro tem assinaturas, Mercado Pago também.
-4. **Painel admin** pra você ver os pedidos sem precisar abrir Vercel.
+O sistema agora tem painel admin que mostra todos os leads, status, valores e detalhes do briefing. Pra funcionar precisa de 2 coisas:
+
+### 1) Definir senha do admin
+
+No Vercel → Settings → Environment Variables, adiciona:
+- `ADMIN_SENHA` = uma senha forte só sua
+
+Depois faz Redeploy (Deployments → último → ⋯ → Redeploy).
+
+### 2) Conectar Upstash Redis (banco de dados grátis)
+
+1. Vercel → Project `gsn-sites-platform` → **Storage** → **Create Database**
+2. Escolhe **Upstash** → **Redis** (free tier 10k requests/dia, sobra)
+3. Conecta ao projeto. As env vars `KV_REST_API_URL` e `KV_REST_API_TOKEN` são adicionadas sozinhas.
+4. Redeploy.
+5. Acessa `getsitesninjas.com.br/admin.html` e usa sua `ADMIN_SENHA`.
+
+### O que o painel mostra
+
+- **Cards no topo:** total de visitas no /criar, previews gerados, pagamentos, em produção, R$ recebido
+- **Tabela:** todos os leads ordenados do mais novo pro mais velho
+- **Filtros por status:** só preview, iniciou pagto, pago/falta entregar, em produção, entregue, cancelado
+- **Busca:** por nome, segmento, cidade
+- **Detalhe do lead:** todo o briefing + observações internas + ações (marcar entregue, cancelar, abrir WhatsApp)
+
+### Webhook do PagSeguro (pra marcar pago automaticamente)
+
+Quando ativar o PagSeguro real (token configurado), cadastra essa URL como notificação:
+```
+https://getsitesninjas.com.br/api/webhook-pagseguro
+```
+Em: PagBank → Integrações → URLs de notificação. Aí toda vez que um cliente paga, o lead vira "PAGO" no painel automaticamente.
+
+---
+
+## Próximos passos (quando estiver escalando)
+
+1. **Cobrança recorrente** dos R$ 97/mês — PagSeguro tem assinaturas, Mercado Pago também.
+2. **Notificação no zap** quando lead pagar (cron + Twilio ou n8n).
+3. **Cron de cobrança mensal** dos clientes ativos.
+4. **Histórico de previews gerados** (salvar HTML pra refazer rápido).
 
 Mas isso tudo vem depois. Por enquanto, foca em vender.
 

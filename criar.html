@@ -272,6 +272,7 @@
   const totalEtapas = 5;
   let briefing = {};       // dados do cliente
   let htmlGerado = '';     // HTML que a IA devolveu
+  let leadIdAtual = null;  // ID do lead salvo no banco (vem do /api/gerar)
   let pacoteSelecionado = 'basico';
 
   // pré-seleciona pacote vindo da URL (?pacote=padrao)
@@ -374,6 +375,7 @@
       }
       const data = await resp.json();
       htmlGerado = data.html;
+      leadIdAtual = data.leadId || null;
 
       logarEtapa('📦 Montando o preview...');
       const frame = document.getElementById('previewFrame');
@@ -424,7 +426,7 @@
       const resp = await fetch('/api/pagamento', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ pacote: pacoteSelecionado, briefing })
+        body: JSON.stringify({ pacote: pacoteSelecionado, briefing, leadId: leadIdAtual })
       });
       if (!resp.ok){
         const err = await resp.text();

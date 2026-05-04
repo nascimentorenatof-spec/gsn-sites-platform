@@ -12,6 +12,8 @@
 // perder vendas enquanto configura o PagSeguro).
 // =====================================================================
 
+import { atualizarLead, salvarLead, dbConfigurado, STATUS } from './_lib/db.js';
+
 // 🔧 EDITAR AQUI: preços (em centavos) e descrição dos pacotes
 const PACOTES = {
   basico: {
@@ -35,11 +37,23 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { pacote, briefing } = req.body || {};
+    const { pacote, briefing, leadId } = req.body || {};
     const pacoteInfo = PACOTES[pacote];
 
     if (!pacoteInfo) {
       return res.status(400).json({ error: 'Pacote inválido. Use "basico" ou "padrao".' });
+    }
+
+    // === MARCA O LEAD COMO "PAGAMENTO_INICIADO" ===
+    if (dbConfigurado() && leadId) {
+      try {
+        await atualizarLead(leadId, {
+          status: STATUS.PAGAMENTO_INICIADO,
+          pacote,
+          pacote_nome: pacoteInfo.nome,
+          valor_centavos: pacoteInfo.valor_centavos
+        });
+      } catch (e) { console.error('Falhou marcar lead pagamento:', e.message); }
     }
 
     // === FALLBACK: se PagSeguro não está configurado, manda pro WhatsApp ===
@@ -110,6 +124,16 @@ export default async function handler(req, res) {
     const linkPay = (data.links || []).find(l => l.rel === 'PAY' || l.rel === 'CHECKOUT');
     if (!linkPay) {
       return res.status(500).json({ error: 'PagSeguro não devolveu link de pagamento.', resposta: data });
+    }
+
+    // guarda o reference_id no lead pra casar com o webhook depois
+    if (dbConfigurado() && leadId) {
+      try {
+        await atualizarLead(leadId, {
+          pagseguro_reference: orderId,
+          pagseguro_order_id: data.id
+        });
+      } catch (e) { console.error('Falhou salvar pagseguro_reference:', e.message); }
     }
 
     return res.status(200).json({

@@ -8,6 +8,7 @@
 // =====================================================================
 
 import Anthropic from '@anthropic-ai/sdk';
+import { salvarLead, incrementar, dbConfigurado, STATUS } from './_lib/db.js';
 
 // Modelo da Anthropic (Sonnet 4.6 — bom equilíbrio entre qualidade e velocidade)
 const MODELO = 'claude-sonnet-4-6';
@@ -132,7 +133,23 @@ Gere o HTML completo agora. Lembre: APENAS o código, do <!DOCTYPE html> ao </ht
       if (idx >= 0) html = html.slice(idx);
     }
 
-    return res.status(200).json({ html });
+    // === SALVA O LEAD NO BANCO (não bloqueia se DB falhar) ===
+    let leadId = null;
+    if (dbConfigurado()) {
+      try {
+        const lead = await salvarLead({
+          status: STATUS.PREVIEW_GERADO,
+          briefing,
+          html_preview_chars: html.length
+        });
+        leadId = lead.id;
+        await incrementar('gerados');
+      } catch (dbErr) {
+        console.error('Erro ao salvar lead:', dbErr.message);
+      }
+    }
+
+    return res.status(200).json({ html, leadId });
 
   } catch (err) {
     console.error('Erro ao gerar site:', err);
