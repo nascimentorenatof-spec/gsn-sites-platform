@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ============== SEO ============== -->
+<!-- 🔧 EDITAR AQUI: título e descrição da aba do navegador / Google -->
+<title>GetSitesNinjas | Site rápido e barato em até 5 dias — São Paulo</title>
+<meta name="description" content="Fazer site barato em São Paulo é com a Getsitesninjas. Site profissional pronto em até 5 dias por R$ 297. Hospedagem + manutenção R$ 97/mês. Pix, WhatsApp e zero enrolação.">
+<meta name="keywords" content="site rápido, site barato, fazer site barato, criação de site São Paulo, site para MEI, landing page barata">
+<meta property="og:title" content="GetSitesNinjas | Site rápido e barato em até 5 dias">
+<meta property="og:description" content="Site profissional, IA + acabamento humano, em até 5 dias. R$ 297 + R$ 97/mês.">
+<meta property="og:type" content="website">
+
+<!-- Tailwind oficial via CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  // 🔧 EDITAR AQUI: cores principais da marca
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ninja: {
+            dark:   '#0f172a',  // azul escuro
+            green:  '#22c55e',  // verde ninja
+            green2: '#16a34a',  // verde hover
+            orange: '#f59e0b',  // laranja energia
+            soft:   '#f1f5f9'
+          }
+        },
+        fontFamily: { sans: ['Inter','system-ui','sans-serif'] }
+      }
+    }
+  }
+</script>
+
+<!-- ============== JS DE CONFIGURAÇÃO ============== -->
+<script>
+  // 🔧 EDITAR AQUI: número do WhatsApp (com DDD, sem espaço, com 55 na frente)
+  const WHATSAPP_NUMERO = "5511939344180";
+
+  // 🔧 EDITAR AQUI: mensagem padrão ao clicar em qualquer botão de zap
+  const WHATSAPP_MSG_PADRAO = "Oi! Vim pelo site da Getsitesninjas e quero fazer meu site. Pode me ajudar?";
+
+  function abrirZap(msg){
+    const texto = encodeURIComponent(msg || WHATSAPP_MSG_PADRAO);
+    window.open(`https://wa.me/${WHATSAPP_NUMERO}?text=${texto}`,'_blank');
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; }
+  /* animação leve do botão flutuante */
+  @keyframes pulseZap { 0%,100%{ box-shadow:0 0 0 0 rgba(34,197,94,.6);} 50%{ box-shadow:0 0 0 14px rgba(34,197,94,0);} }
+  .pulse-zap { animation: pulseZap 2s infinite; }
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .faq-arrow { transform: rotate(180deg); }
+</style>
+</head>
+
+<body class="bg-white text-ninja-dark antialiased">
+
+<!-- ============== HEADER ============== -->
+<header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-100">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-2">
+      <span class="bg-ninja-green text-white font-black text-sm w-9 h-9 grid place-items-center rounded-lg">GSN</span>
+      <span class="font-bold text-lg">GetSitesNinjas</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-700">
+      <a href="#como" class="hover:text-ninja-green">Como funciona</a>
+      <a href="#pacotes" class="hover:text-ninja-green">Pacotes</a>
+      <a href="#exemplos" class="hover:text-ninja-green">Exemplos</a>
+      <a href="#faq" class="hover:text-ninja-green">Dúvidas</a>
+    </nav>
+    <button onclick="abrirZap()" class="bg-ninja-green hover:bg-ninja-green2 text-white font-bold text-sm md:text-base px-4 py-2.5 rounded-lg transition">
+      Falar no WhatsApp
+    </button>
+  </div>
+</header>
+
+<!-- ============== HERO ============== -->
+<section class="relative overflow-hidden bg-gradient-to-br from-ninja-dark via-slate-900 to-ninja-dark text-white">
+  <div class="absolute inset-0 opacity-10" style="background-image:radial-gradient(circle at 20% 20%, #22c55e 0, transparent 40%), radial-gradient(circle at 80% 60%, #f59e0b 0, transparent 35%);"></div>
+  <div class="relative max-w-6xl mx-auto px-4 pt-14 pb-20 md:pt-24 md:pb-28 text-center">
+
+    <span class="inline-block bg-ninja-green/20 text-ninja-green border border-ninja-green/40 text-xs md:text-sm font-bold px-4 py-1.5 rounded-full">
+      ⚡ Feito com IA + acabamento humano
+    </span>
+
+    <!-- 🔧 EDITAR AQUI: título principal (H1) -->
+    <h1 class="mt-5 text-4xl md:text-6xl font-black leading-tight">
+      Site rápido e barato <br class="hidden md:block">
+      como um <span class="text-ninja-green">ninja</span>.
+    </h1>
+
+    <!-- 🔧 EDITAR AQUI: subtítulo -->
+    <p class="mt-5 text-base md:text-xl text-slate-300 max-w-2xl mx-auto">
+      Site profissional pronto pra vender em <strong class="text-white">até 5 dias</strong>.
+      A partir de <strong class="text-ninja-green">R$ 297</strong>. Hospedagem + suporte por
+      <strong class="text-white">R$ 97/mês</strong>. Sem reunião sem fim, sem letra miúda.
+    </p>
+
+    <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+      <button onclick="abrirZap('Oi! Quero começar meu site agora pelo Getsitesninjas. Tô pronto pra mandar as informações.')"
+              class="bg-ninja-green hover:bg-ninja-green2 text-white font-bold px-7 py-4 rounded-xl text-lg transition shadow-lg shadow-ninja-green/30">
+        💬 Quero meu site no WhatsApp
+      </button>
+      <button onclick="abrirBriefing()"
+              class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-7 py-4 rounded-xl text-lg transition">
+        Pedir preview com IA
+      </button>
+    </div>
+
+    <p class="mt-5 text-sm text-slate-400">
+      ✅ Pix aceito &nbsp; ✅ Sem contrato longo &nbsp; ✅ Garantia de 7 dias
+    </p>
+  </div>
+</section>
+
+<!-- ============== TRUST BAR / PROVA SOCIAL ============== -->
+<section class="bg-ninja-soft border-y border-slate-200">
+  <div class="max-w-6xl mx-auto px-4 py-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+    <!-- 🔧 EDITAR AQUI: números podem ser ajustados conforme você for entregando -->
+    <div>
+      <div class="text-2xl md:text-3xl font-black text-ninja-dark">+50</div>
+      <div class="text-xs md:text-sm text-slate-600">sites entregues</div>
+    </div>
+    <div>
+      <div class="text-2xl md:text-3xl font-black text-ninja-dark">5 dias</div>
+      <div class="text-xs md:text-sm text-slate-600">prazo médio</div>
+    </div>
+    <div>
+      <div class="text-2xl md:text-3xl font-black text-ninja-dark">4.9 ⭐</div>
+      <div class="text-xs md:text-sm text-slate-600">avaliação dos clientes</div>
+    </div>
+    <div>
+      <div class="text-2xl md:text-3xl font-black text-ninja-dark">SP</div>
+      <div class="text-xs md:text-sm text-slate-600">atendimento de São Paulo</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== COMO FUNCIONA ============== -->
+<section id="como" class="py-16 md:py-24">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="text-ninja-green font-bold text-sm tracking-widest uppercase">Como funciona</span>
+      <h2 class="mt-2 text-3xl md:text-5xl font-black">Em 3 passos. Sem mistério.</h2>
+      <p class="mt-3 text-slate-600 text-lg">Você só manda texto e foto. A gente faz o resto.</p>
+    </div>
+
+    <div class="mt-12 grid md:grid-cols-3 gap-6">
+      <div class="bg-white border-2 border-slate-100 rounded-2xl p-7 hover:border-ninja-green transition">
+        <div class="w-12 h-12 bg-ninja-green text-white font-black grid place-items-center rounded-xl text-xl">1</div>
+        <h3 class="mt-5 text-2xl font-bold">Manda no zap</h3>
+        <p class="mt-2 text-slate-600">Você nos manda nome do negócio, serviços, telefone, fotos e logo (se tiver). Pode ser pelo WhatsApp mesmo.</p>
+      </div>
+      <div class="bg-white border-2 border-slate-100 rounded-2xl p-7 hover:border-ninja-green transition">
+        <div class="w-12 h-12 bg-ninja-green text-white font-black grid place-items-center rounded-xl text-xl">2</div>
+        <h3 class="mt-5 text-2xl font-bold">Recebe o preview</h3>
+        <p class="mt-2 text-slate-600">Em até 48h você recebe a primeira versão do site pra aprovar. Se quiser ajustar cor, texto ou foto, é só falar.</p>
+      </div>
+      <div class="bg-white border-2 border-slate-100 rounded-2xl p-7 hover:border-ninja-green transition">
+        <div class="w-12 h-12 bg-ninja-green text-white font-black grid place-items-center rounded-xl text-xl">3</div>
+        <h3 class="mt-5 text-2xl font-bold">Paga e tá no ar</h3>
+        <p class="mt-2 text-slate-600">Pix aprovado, em até 5 dias o site está publicado, com domínio e hospedagem inclusos no plano mensal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== EXEMPLOS / GALERIA ============== -->
+<section id="exemplos" class="py-16 md:py-24 bg-ninja-soft">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="text-ninja-green font-bold text-sm tracking-widest uppercase">Exemplos</span>
+      <h2 class="mt-2 text-3xl md:text-5xl font-black">Tipos de site que a gente entrega</h2>
+      <p class="mt-3 text-slate-600 text-lg">Bonito, leve e que abre rápido até no celular ruim do cliente.</p>
+    </div>
+
+    <!-- 🔧 EDITAR AQUI: trocar os emojis/textos pelos prints reais dos sites entregues -->
+    <div class="mt-10 grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div class="aspect-[4/3] bg-gradient-to-br from-pink-100 to-pink-200 rounded-xl grid place-items-center text-center p-4">
+        <div>
+          <div class="text-5xl">💇</div>
+          <div class="mt-2 font-bold">Salão de beleza</div>
+          <div class="text-xs text-slate-600">Agendamento + galeria</div>
+        </div>
+      </div>
+      <div class="aspect-[4/3] bg-gradient-to-br from-blue-100 to-blue-200 rounded-xl grid place-items-center text-center p-4">
+        <div>
+          <div class="text-5xl">🦷</div>
+          <div class="mt-2 font-bold">Dentista</div>
+          <div class="text-xs text-slate-600">Procedimentos + WhatsApp</div>
+        </div>
+      </div>
+      <div class="aspect-[4/3] bg-gradient-to-br from-amber-100 to-amber-200 rounded-xl grid place-items-center text-center p-4">
+        <div>
+          <div class="text-5xl">🍔</div>
+          <div class="mt-2 font-bold">Hamburgueria</div>
+          <div class="text-xs text-slate-600">Cardápio + delivery</div>
+        </div>
+      </div>
+      <div class="aspect-[4/3] bg-gradient-to-br from-green-100 to-green-200 rounded-xl grid place-items-center text-center p-4">
+        <div>
+          <div class="text-5xl">🏋️</div>
+          <div class="mt-2 font-bold">Personal trainer</div>
+          <div class="text-xs text-slate-600">Planos + agenda</div>
+        </div>
+      </div>
+      <div class="aspect-[4/3] bg-gradient-to-br from-purple-100 to-purple-200 rounded-xl grid place-items-center text-center p-4">
+        <div>
+          <div class="text-5xl">🧘</div>
+          <div class="mt-2 font-bold">Coach / terapeuta</div>
+          <div class="text-xs text-slate-600">Sessões + depoimentos</div>
+        </div>
+      </div>
+      <div class="aspect-[4/3] bg-gradient-to-br from-slate-100 to-slate-200 rounded-xl grid place-items-center text-center p-4">
+        <div>
+          <div class="text-5xl">🔧</div>
+          <div class="mt-2 font-bold">Prestador de serviço</div>
+          <div class="text-xs text-slate-600">Orçamento rápido</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PACOTES ============== -->
+<section id="pacotes" class="py-16 md:py-24">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="text-ninja-green font-bold text-sm tracking-widest uppercase">Pacotes</span>
+      <h2 class="mt-2 text-3xl md:text-5xl font-black">Preço claro. Sem pegadinha.</h2>
+      <p class="mt-3 text-slate-600 text-lg">
+        Você paga uma vez pelo site e <strong>R$ 97/mês</strong> pra manter no ar com hospedagem, domínio e suporte.
+      </p>
+    </div>
+
+    <div class="mt-12 grid md:grid-cols-3 gap-5">
+
+      <!-- BÁSICO -->
+      <!-- 🔧 EDITAR AQUI: preço do pacote básico -->
+      <div class="bg-white border-2 border-slate-200 rounded-2xl p-7 flex flex-col">
+        <div class="text-xs font-black tracking-widest text-slate-500 uppercase">Básico</div>
+        <div class="mt-3 flex items-end gap-2">
+          <span class="text-5xl font-black">R$ 297</span>
+          <span class="text-slate-500 mb-1">único</span>
+        </div>
+        <p class="mt-1 text-sm text-slate-500">+ R$ 97/mês de manutenção</p>
+        <ul class="mt-6 space-y-3 text-sm text-slate-700 flex-1">
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> 1 página profissional</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> Botão de WhatsApp</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> Layout responsivo (celular)</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> Entrega em até 5 dias</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> 1 revisão grátis</li>
+        </ul>
+        <button onclick="abrirZap('Oi! Quero o pacote BÁSICO de R$ 297 + R$ 97/mês.')"
+                class="mt-7 w-full border-2 border-ninja-green text-ninja-green hover:bg-ninja-green hover:text-white font-bold py-3 rounded-xl transition">
+          Começar pelo básico
+        </button>
+      </div>
+
+      <!-- PADRÃO (destaque) -->
+      <!-- 🔧 EDITAR AQUI: preço do pacote padrão -->
+      <div class="relative bg-ninja-dark text-white rounded-2xl p-7 flex flex-col shadow-2xl shadow-ninja-green/20 ring-4 ring-ninja-green">
+        <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-ninja-orange text-white text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full">Mais escolhido</span>
+        <div class="text-xs font-black tracking-widest text-ninja-green uppercase">Padrão</div>
+        <div class="mt-3 flex items-end gap-2">
+          <span class="text-5xl font-black">R$ 690</span>
+          <span class="text-slate-400 mb-1">único</span>
+        </div>
+        <p class="mt-1 text-sm text-slate-400">+ R$ 97/mês de manutenção</p>
+        <ul class="mt-6 space-y-3 text-sm flex-1">
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> Até 4 páginas profissionais</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> Formulário de contato</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> SEO básico (Google)</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> Domínio + hospedagem orientados</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> Entrega em até 5 dias</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> 2 revisões grátis</li>
+        </ul>
+        <button onclick="abrirZap('Oi! Quero o pacote PADRÃO de R$ 690 + R$ 97/mês.')"
+                class="mt-7 w-full bg-ninja-green hover:bg-ninja-green2 text-white font-bold py-3 rounded-xl transition">
+          Quero o pacote padrão
+        </button>
+      </div>
+
+      <!-- MENSALIDADE -->
+      <!-- 🔧 EDITAR AQUI: preço da manutenção mensal -->
+      <div class="bg-white border-2 border-slate-200 rounded-2xl p-7 flex flex-col">
+        <div class="text-xs font-black tracking-widest text-ninja-orange uppercase">Manutenção</div>
+        <div class="mt-3 flex items-end gap-2">
+          <span class="text-5xl font-black">R$ 97</span>
+          <span class="text-slate-500 mb-1">/mês</span>
+        </div>
+        <p class="mt-1 text-sm text-slate-500">incluso em todos os pacotes</p>
+        <ul class="mt-6 space-y-3 text-sm text-slate-700 flex-1">
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> Hospedagem rápida</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> Domínio cuidado por nós</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> Backup e segurança (SSL)</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> Pequenos ajustes mensais</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> Suporte no WhatsApp</li>
+          <li class="flex gap-2"><span class="text-ninja-green font-bold">✓</span> Sem fidelidade</li>
+        </ul>
+        <button onclick="abrirZap('Oi! Quero entender melhor a manutenção mensal de R$ 97.')"
+                class="mt-7 w-full border-2 border-ninja-dark text-ninja-dark hover:bg-ninja-dark hover:text-white font-bold py-3 rounded-xl transition">
+          Falar sobre a mensalidade
+        </button>
+      </div>
+    </div>
+
+    <p class="mt-8 text-center text-sm text-slate-500">
+      💳 Pix, cartão ou boleto • 🛡️ Sem fidelidade na mensalidade • 📍 São Paulo - SP
+    </p>
+  </div>
+</section>
+
+<!-- ============== DEPOIMENTOS ============== -->
+<section class="py-16 md:py-24 bg-ninja-soft">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="text-center max-w-2xl mx-auto">
+      <span class="text-ninja-green font-bold text-sm tracking-widest uppercase">Quem já fez</span>
+      <h2 class="mt-2 text-3xl md:text-5xl font-black">O que os clientes falam</h2>
+    </div>
+
+    <!-- 🔧 EDITAR AQUI: trocar pelos depoimentos reais conforme for entregando -->
+    <div class="mt-12 grid md:grid-cols-3 gap-5">
+      <div class="bg-white p-6 rounded-2xl shadow-sm">
+        <div class="text-ninja-orange text-lg">★★★★★</div>
+        <p class="mt-3 text-slate-700">"Tava fugindo de fazer site fazia 2 anos. Pelo zap em 4 dias tava no ar. Comecei a aparecer no Google e já fechei 3 clientes."</p>
+        <div class="mt-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-pink-200 grid place-items-center font-bold">M</div>
+          <div>
+            <div class="font-bold text-sm">Mariana</div>
+            <div class="text-xs text-slate-500">Salão de beleza • Tatuapé</div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-2xl shadow-sm">
+        <div class="text-ninja-orange text-lg">★★★★★</div>
+        <p class="mt-3 text-slate-700">"Caro? Pelo contrário. Paguei R$ 297 no Pix e R$ 97 por mês pra deixar no ar. Era o que eu tava precisando, sem firula."</p>
+        <div class="mt-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-blue-200 grid place-items-center font-bold">C</div>
+          <div>
+            <div class="font-bold text-sm">Carlos</div>
+            <div class="text-xs text-slate-500">Eletricista • Zona Leste SP</div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-2xl shadow-sm">
+        <div class="text-ninja-orange text-lg">★★★★★</div>
+        <p class="mt-3 text-slate-700">"Adorei que mandei só foto e texto pelo WhatsApp e eles montaram tudo. Minha mãe entenderia também."</p>
+        <div class="mt-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-amber-200 grid place-items-center font-bold">J</div>
+          <div>
+            <div class="font-bold text-sm">Juliana</div>
+            <div class="text-xs text-slate-500">Coach • Pinheiros</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== GARANTIA ============== -->
+<section class="py-16 md:py-20">
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="bg-gradient-to-br from-ninja-green to-ninja-green2 text-white rounded-3xl p-8 md:p-12 text-center">
+      <div class="text-6xl">🛡️</div>
+      <h2 class="mt-4 text-3xl md:text-4xl font-black">Garantia de 7 dias.</h2>
+      <p class="mt-3 text-lg max-w-2xl mx-auto opacity-95">
+        Não gostou do preview? A gente devolve 100% do Pix em até 7 dias. Sem letra miúda, sem perguntar o porquê.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FAQ ============== -->
+<section id="faq" class="py-16 md:py-24 bg-ninja-soft">
+  <div class="max-w-3xl mx-auto px-4">
+    <div class="text-center">
+      <span class="text-ninja-green font-bold text-sm tracking-widest uppercase">Dúvidas comuns</span>
+      <h2 class="mt-2 text-3xl md:text-5xl font-black">Perguntas que todo mundo faz</h2>
+    </div>
+
+    <!-- 🔧 EDITAR AQUI: perguntas e respostas do FAQ -->
+    <div class="mt-10 space-y-3">
+      <details class="bg-white rounded-xl border border-slate-200 p-5">
+        <summary class="flex justify-between items-center font-bold">
+          Preciso entender de tecnologia?
+          <span class="faq-arrow transition">▼</span>
+        </summary>
+        <p class="mt-3 text-slate-600">Não. Você manda texto e foto pelo WhatsApp. A gente cuida de tudo: design, hospedagem, domínio e SEO.</p>
+      </details>
+      <details class="bg-white rounded-xl border border-slate-200 p-5">
+        <summary class="flex justify-between items-center font-bold">
+          Em quanto tempo o site fica pronto?
+          <span class="faq-arrow transition">▼</span>
+        </summary>
+        <p class="mt-3 text-slate-600">Em até 5 dias úteis depois que você manda os textos e fotos. Preview você recebe em até 48h.</p>
+      </details>
+      <details class="bg-white rounded-xl border border-slate-200 p-5">
+        <summary class="flex justify-between items-center font-bold">
+          Por que pagar R$ 97 por mês?
+          <span class="faq-arrow transition">▼</span>
+        </summary>
+        <p class="mt-3 text-slate-600">É o que mantém seu site no ar: hospedagem rápida, domínio, SSL (cadeado de segurança), backup, pequenos ajustes e suporte no zap. Sem isso, o site sai do ar. Sem fidelidade — pode cancelar quando quiser.</p>
+      </details>
+      <details class="bg-white rounded-xl border border-slate-200 p-5">
+        <summary class="flex justify-between items-center font-bold">
+          Posso cancelar a mensalidade?
+          <span class="faq-arrow transition">▼</span>
+        </summary>
+        <p class="mt-3 text-slate-600">Pode, a qualquer momento. Só lembra que sem mensalidade o site sai do ar (porque é ela que paga hospedagem e domínio).</p>
+      </details>
+      <details class="bg-white rounded-xl border border-slate-200 p-5">
+        <summary class="flex justify-between items-center font-bold">
+          Como funciona o pagamento?
+          <span class="faq-arrow transition">▼</span>
+        </summary>
+        <p class="mt-3 text-slate-600">Pix na hora (preferido), cartão de crédito ou boleto. A criação é paga uma vez. A mensalidade é cobrada todo mês no mesmo dia.</p>
+      </details>
+      <details class="bg-white rounded-xl border border-slate-200 p-5">
+        <summary class="flex justify-between items-center font-bold">
+          E se eu não gostar do site?
+          <span class="faq-arrow transition">▼</span>
+        </summary>
+        <p class="mt-3 text-slate-600">Você tem 7 dias de garantia. Se não rolar, devolvemos 100% do valor pago no Pix. Antes disso, ainda dá pra ajustar cor, texto e foto sem custo.</p>
+      </details>
+      <details class="bg-white rounded-xl border border-slate-200 p-5">
+        <summary class="flex justify-between items-center font-bold">
+          Vocês atendem fora de São Paulo?
+          <span class="faq-arrow transition">▼</span>
+        </summary>
+        <p class="mt-3 text-slate-600">Sim! O atendimento é todo pelo WhatsApp, então atendemos o Brasil inteiro. Somos de SP, mas já entregamos site pra todo canto.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CTA FINAL ============== -->
+<section class="py-16 md:py-24 bg-ninja-dark text-white">
+  <div class="max-w-4xl mx-auto px-4 text-center">
+    <h2 class="text-3xl md:text-5xl font-black">Bora colocar seu negócio no ar?</h2>
+    <p class="mt-4 text-lg text-slate-300">
+      Em 5 dias você tem um site bonito, rápido e que vende. R$ 297 + R$ 97/mês. Pix aceito.
+    </p>
+    <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+      <button onclick="abrirZap('Oi! Decidi! Quero começar meu site agora.')"
+              class="bg-ninja-green hover:bg-ninja-green2 text-white font-bold px-8 py-4 rounded-xl text-lg transition shadow-lg shadow-ninja-green/30">
+        💬 Começar agora no WhatsApp
+      </button>
+      <button onclick="abrirBriefing()"
+              class="bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold px-8 py-4 rounded-xl text-lg transition">
+        Pedir preview com IA
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="py-10 bg-slate-950 text-slate-400 text-sm">
+  <div class="max-w-6xl mx-auto px-4 flex flex-col md:flex-row gap-4 justify-between items-center">
+    <div class="flex items-center gap-2">
+      <span class="bg-ninja-green text-white font-black text-xs w-7 h-7 grid place-items-center rounded">GSN</span>
+      <span class="font-bold text-white">GetSitesNinjas</span>
+      <span class="opacity-60">© 2026 — São Paulo, SP</span>
+    </div>
+    <div class="flex gap-5">
+      <a href="#pacotes" class="hover:text-white">Pacotes</a>
+      <a href="#faq" class="hover:text-white">Dúvidas</a>
+      <a href="javascript:abrirZap()" class="hover:text-white">WhatsApp</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ============== BOTÃO FLUTUANTE WHATSAPP (OBRIGATÓRIO) ============== -->
+<button onclick="abrirZap()"
+        aria-label="Falar no WhatsApp"
+        class="pulse-zap fixed bottom-5 right-5 z-50 bg-ninja-green hover:bg-ninja-green2 text-white font-bold rounded-full shadow-2xl px-5 py-4 flex items-center gap-2 transition">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+  <span class="hidden sm:inline">WhatsApp</span>
+</button>
+
+<!-- ============== MODAL: MOTOR DE CRIAÇÃO (BRIEFING) ============== -->
+<!-- Versão simplificada de 5 etapas. Ao final, gera mensagem pré-pronta no WhatsApp. -->
+<div id="briefingModal" class="hidden fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm overflow-y-auto p-3 md:p-6">
+  <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl my-4">
+
+    <!-- Header do modal -->
+    <div class="flex items-center justify-between px-5 md:px-7 py-4 border-b border-slate-100 sticky top-0 bg-white rounded-t-2xl">
+      <div>
+        <div class="text-xs font-bold tracking-widest text-ninja-green uppercase">Preview com IA</div>
+        <h3 class="text-lg md:text-xl font-black">Conta um pouco do seu negócio</h3>
+      </div>
+      <button onclick="fecharBriefing()" class="text-slate-400 hover:text-ninja-dark text-2xl font-bold w-9 h-9 grid place-items-center rounded-lg hover:bg-slate-100">×</button>
+    </div>
+
+    <!-- Barra de progresso -->
+    <div class="px-5 md:px-7 pt-4">
+      <div class="flex justify-between text-xs font-bold text-slate-500 mb-2">
+        <span id="progressoTexto">Etapa 1 de 5</span>
+        <span id="progressoPct">20%</span>
+      </div>
+      <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div id="progressoBarra" class="h-full bg-ninja-green transition-all" style="width:20%"></div>
+      </div>
+    </div>
+
+    <!-- Conteúdo das etapas -->
+    <div class="px-5 md:px-7 py-6">
+
+      <!-- Etapa 1 -->
+      <div class="etapa" data-step="1">
+        <label class="block font-bold mb-2">Qual é o nome do seu negócio?</label>
+        <input id="campo_nome" type="text" placeholder="Ex: Salão da Mari" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-base focus:border-ninja-green outline-none">
+
+        <label class="block font-bold mt-5 mb-2">O que você faz / vende?</label>
+        <input id="campo_segmento" type="text" placeholder="Ex: salão de beleza, dentista, eletricista..." class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-base focus:border-ninja-green outline-none">
+      </div>
+
+      <!-- Etapa 2 -->
+      <div class="etapa hidden" data-step="2">
+        <label class="block font-bold mb-2">Em qual cidade você atende?</label>
+        <input id="campo_cidade" type="text" placeholder="Ex: São Paulo - SP" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-base focus:border-ninja-green outline-none">
+
+        <label class="block font-bold mt-5 mb-2">Qual o seu WhatsApp para receber o preview?</label>
+        <input id="campo_zap" type="tel" placeholder="(11) 9 9999-9999" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-base focus:border-ninja-green outline-none">
+      </div>
+
+      <!-- Etapa 3 -->
+      <div class="etapa hidden" data-step="3">
+        <label class="block font-bold mb-3">Qual o seu objetivo principal com o site?</label>
+        <div class="grid gap-2">
+          <label class="flex items-center gap-3 border-2 border-slate-200 rounded-xl px-4 py-3 cursor-pointer hover:border-ninja-green">
+            <input type="radio" name="objetivo" value="Receber clientes pelo WhatsApp" class="accent-ninja-green"> Receber clientes pelo WhatsApp
+          </label>
+          <label class="flex items-center gap-3 border-2 border-slate-200 rounded-xl px-4 py-3 cursor-pointer hover:border-ninja-green">
+            <input type="radio" name="objetivo" value="Aparecer no Google" class="accent-ninja-green"> Aparecer no Google
+          </label>
+          <label class="flex items-center gap-3 border-2 border-slate-200 rounded-xl px-4 py-3 cursor-pointer hover:border-ninja-green">
+            <input type="radio" name="objetivo" value="Vender mais" class="accent-ninja-green"> Vender mais
+          </label>
+          <label class="flex items-center gap-3 border-2 border-slate-200 rounded-xl px-4 py-3 cursor-pointer hover:border-ninja-green">
+            <input type="radio" name="objetivo" value="Ter cara de empresa séria" class="accent-ninja-green"> Ter cara de empresa séria
+          </label>
+        </div>
+      </div>
+
+      <!-- Etapa 4 -->
+      <div class="etapa hidden" data-step="4">
+        <label class="block font-bold mb-2">Qual estilo combina mais com você?</label>
+        <div class="grid grid-cols-2 gap-3">
+          <label class="border-2 border-slate-200 rounded-xl p-4 cursor-pointer hover:border-ninja-green text-center">
+            <input type="radio" name="estilo" value="Moderno e clean" class="accent-ninja-green"> <div class="mt-2 font-bold text-sm">Moderno e clean</div>
+          </label>
+          <label class="border-2 border-slate-200 rounded-xl p-4 cursor-pointer hover:border-ninja-green text-center">
+            <input type="radio" name="estilo" value="Sério e profissional" class="accent-ninja-green"> <div class="mt-2 font-bold text-sm">Sério e profissional</div>
+          </label>
+          <label class="border-2 border-slate-200 rounded-xl p-4 cursor-pointer hover:border-ninja-green text-center">
+            <input type="radio" name="estilo" value="Colorido e divertido" class="accent-ninja-green"> <div class="mt-2 font-bold text-sm">Colorido e divertido</div>
+          </label>
+          <label class="border-2 border-slate-200 rounded-xl p-4 cursor-pointer hover:border-ninja-green text-center">
+            <input type="radio" name="estilo" value="Elegante / luxo" class="accent-ninja-green"> <div class="mt-2 font-bold text-sm">Elegante / luxo</div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Etapa 5 -->
+      <div class="etapa hidden" data-step="5">
+        <label class="block font-bold mb-2">Qual pacote te chamou mais atenção?</label>
+        <div class="grid gap-2">
+          <label class="flex items-start gap-3 border-2 border-slate-200 rounded-xl px-4 py-3 cursor-pointer hover:border-ninja-green">
+            <input type="radio" name="pacote" value="Básico — R$ 297 + R$ 97/mês" class="accent-ninja-green mt-1">
+            <div><div class="font-bold">Básico — R$ 297</div><div class="text-xs text-slate-500">1 página + R$ 97/mês</div></div>
+          </label>
+          <label class="flex items-start gap-3 border-2 border-slate-200 rounded-xl px-4 py-3 cursor-pointer hover:border-ninja-green">
+            <input type="radio" name="pacote" value="Padrão — R$ 690 + R$ 97/mês" class="accent-ninja-green mt-1">
+            <div><div class="font-bold">Padrão — R$ 690</div><div class="text-xs text-slate-500">Até 4 páginas + R$ 97/mês</div></div>
+          </label>
+          <label class="flex items-start gap-3 border-2 border-slate-200 rounded-xl px-4 py-3 cursor-pointer hover:border-ninja-green">
+            <input type="radio" name="pacote" value="Quero ajuda pra escolher" class="accent-ninja-green mt-1">
+            <div><div class="font-bold">Tô em dúvida</div><div class="text-xs text-slate-500">Quero ajuda pra escolher</div></div>
+          </label>
+        </div>
+
+        <label class="block font-bold mt-5 mb-2">Algo a mais que a gente precisa saber? (opcional)</label>
+        <textarea id="campo_extra" rows="3" placeholder="Cores que você gosta, exemplos de site que você curtiu, etc." class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 text-base focus:border-ninja-green outline-none"></textarea>
+      </div>
+
+    </div>
+
+    <!-- Botões de navegação -->
+    <div class="px-5 md:px-7 py-4 border-t border-slate-100 flex gap-3">
+      <button id="btnVoltar" onclick="navegarEtapa(-1)" class="hidden flex-1 border-2 border-slate-200 hover:border-slate-400 font-bold py-3 rounded-xl">
+        Voltar
+      </button>
+      <button id="btnAvancar" onclick="navegarEtapa(1)" class="flex-1 bg-ninja-green hover:bg-ninja-green2 text-white font-bold py-3 rounded-xl transition">
+        Avançar
+      </button>
+      <button id="btnEnviar" onclick="enviarBriefing()" class="hidden flex-1 bg-ninja-green hover:bg-ninja-green2 text-white font-bold py-3 rounded-xl transition">
+        💬 Mandar pelo WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============== JS DO BRIEFING ============== -->
+<script>
+  let etapaAtual = 1;
+  const totalEtapas = 5;
+
+  function abrirBriefing(){
+    document.getElementById('briefingModal').classList.remove('hidden');
+    document.body.style.overflow='hidden';
+    etapaAtual = 1;
+    atualizarUI();
+  }
+  function fecharBriefing(){
+    document.getElementById('briefingModal').classList.add('hidden');
+    document.body.style.overflow='';
+  }
+  function navegarEtapa(delta){
+    const novaEtapa = etapaAtual + delta;
+    if (novaEtapa < 1 || novaEtapa > totalEtapas) return;
+    etapaAtual = novaEtapa;
+    atualizarUI();
+  }
+  function atualizarUI(){
+    // mostrar a etapa correta
+    document.querySelectorAll('.etapa').forEach(el=>{
+      el.classList.toggle('hidden', parseInt(el.dataset.step) !== etapaAtual);
+    });
+    // progresso
+    const pct = Math.round((etapaAtual / totalEtapas) * 100);
+    document.getElementById('progressoTexto').textContent = `Etapa ${etapaAtual} de ${totalEtapas}`;
+    document.getElementById('progressoPct').textContent = pct + '%';
+    document.getElementById('progressoBarra').style.width = pct + '%';
+    // botões
+    document.getElementById('btnVoltar').classList.toggle('hidden', etapaAtual === 1);
+    document.getElementById('btnAvancar').classList.toggle('hidden', etapaAtual === totalEtapas);
+    document.getElementById('btnEnviar').classList.toggle('hidden', etapaAtual !== totalEtapas);
+  }
+
+  // Monta a mensagem do WhatsApp com tudo que foi preenchido
+  function enviarBriefing(){
+    const nome      = document.getElementById('campo_nome').value || '-';
+    const segmento  = document.getElementById('campo_segmento').value || '-';
+    const cidade    = document.getElementById('campo_cidade').value || '-';
+    const zap       = document.getElementById('campo_zap').value || '-';
+    const objetivo  = document.querySelector('input[name="objetivo"]:checked')?.value || '-';
+    const estilo    = document.querySelector('input[name="estilo"]:checked')?.value || '-';
+    const pacote    = document.querySelector('input[name="pacote"]:checked')?.value || '-';
+    const extra     = document.getElementById('campo_extra').value || '-';
+
+    const msg =
+`Oi! Quero criar meu site com a Getsitesninjas 🥷
+
+▪️ Negócio: ${nome}
+▪️ Segmento: ${segmento}
+▪️ Cidade: ${cidade}
+▪️ WhatsApp: ${zap}
+▪️ Objetivo: ${objetivo}
+▪️ Estilo: ${estilo}
+▪️ Pacote: ${pacote}
+▪️ Outras infos: ${extra}
+
+Pode mandar o preview!`;
+
+    abrirZap(msg);
+  }
+
+  // Fechar com tecla ESC
+  document.addEventListener('keydown', e=>{
+    if (e.key === 'Escape') fecharBriefing();
+  });
+</script>
+
+<!-- ==========================================================
+🔧 GUIA RÁPIDO DE EDIÇÃO (tudo está sinalizado com 🔧 EDITAR AQUI):
+
+1) WHATSAPP → variável WHATSAPP_NUMERO no <script> do topo (linha ~50).
+2) PREÇOS → seção "PACOTES" (Básico R$ 297, Padrão R$ 690, Mensalidade R$ 97).
+3) CORES → tailwind.config no topo (cor "ninja").
+4) TEXTOS PRINCIPAIS → busque "🔧 EDITAR AQUI" no código.
+5) DEPOIMENTOS → seção "DEPOIMENTOS" (3 cards).
+6) EXEMPLOS DE SITE → seção "EXEMPLOS" (substituir emojis por prints reais).
+7) FAQ → seção "FAQ" (cada <details> é uma pergunta).
+8) MOTOR DE CRIAÇÃO → modal "BRIEFING" (5 etapas, manda tudo pro zap).
+
+Tudo pronto! Mobile-first, sem dependências pesadas, carrega rápido.
+========================================================== -->
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "getsitesninjas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SaaS que gera landing pages com IA para pequenos negócios brasileiros",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.0"
+  }
+}

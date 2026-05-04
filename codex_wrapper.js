@@ -55,11 +55,36 @@ if (positionalArgs.length > 0) {
 
 const cliPath = "C:\\Users\\Elebbre\\AppData\\Roaming\\npm\\node_modules\\@openai\\codex\\bin\\codex.js";
 
-// Usa pipe para stdin e fecha imediatamente (envia EOF)
-// Assim o codex exec nao fica esperando input adicional
 const proc = spawn(process.execPath, [cliPath, ...newArgs], {
     stdio: ["pipe", "inherit", "inherit"]
 });
-proc.stdin.end();
+
+function writeToChild(chunk) {
+    if (proc.stdin.destroyed === false) {
+        proc.stdin.write(chunk);
+    }
+}
+
+function closeChild() {
+    if (proc.stdin.destroyed === false) {
+        proc.stdin.end();
+    }
+}
+
+process.stdin.on("data", writeToChild);
+process.stdin.on("end", function() {
+    clearTimeout(idleTimer);
+    closeChild();
+});
+
+var idleTimer = null;
+
+function resetIdleTimer() {
+    if (idleTimer) { clearTimeout(idleTimer); }
+    idleTimer = setTimeout(closeChild, 4000);
+}
+
+process.stdin.on("data", resetIdleTimer);
+resetIdleTimer();
 
 proc.on("exit", function(code) { process.exit(code || 0); });

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criar meu site — GetSitesNinjas</title>
+<meta name="description" content="Preencha 5 perguntas e veja o preview do seu site na hora, gerado por IA. Aprovou? Pague no Pix e está no ar em 5 dias.">
+<meta name="robots" content="noindex"><!-- página de jornada, não indexar -->
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  // 🔧 EDITAR AQUI: cores
+  tailwind.config = { theme: { extend: { colors: { ninja: { dark:'#0f172a', green:'#22c55e', green2:'#16a34a', orange:'#f59e0b', soft:'#f1f5f9' } }, fontFamily: { sans: ['Inter','system-ui','sans-serif'] } } } }
+</script>
+
+<script>
+  // 🔧 EDITAR AQUI: número do WhatsApp
+  const WHATSAPP_NUMERO = "5511939344180";
+  function abrirZap(msg){
+    window.open(`https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(msg||'Oi! Vim pelo Getsitesninjas.')}`,'_blank');
+  }
+</script>
+
+<style>
+  body { font-family:'Inter',system-ui,sans-serif; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner { animation: spin 1s linear infinite; }
+  @keyframes pulseZap { 0%,100%{ box-shadow:0 0 0 0 rgba(34,197,94,.6);} 50%{ box-shadow:0 0 0 14px rgba(34,197,94,0);} }
+  .pulse-zap { animation: pulseZap 2s infinite; }
+</style>
+</head>
+
+<body class="bg-ninja-soft text-ninja-dark min-h-screen">
+
+<!-- ============== HEADER ============== -->
+<header class="bg-white border-b border-slate-200">
+  <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2">
+      <span class="bg-ninja-green text-white font-black text-sm w-9 h-9 grid place-items-center rounded-lg">GSN</span>
+      <span class="font-bold text-lg">GetSitesNinjas</span>
+    </a>
+    <a href="/" class="text-sm text-slate-500 hover:text-ninja-dark">← Voltar</a>
+  </div>
+</header>
+
+<!-- ============== APP ============== -->
+<main class="max-w-3xl mx-auto px-4 py-8 md:py-12">
+
+  <!-- ====== ESTADO: BRIEFING ====== -->
+  <section id="estado-briefing" class="bg-white rounded-2xl shadow-sm border border-slate-100">
+    <!-- progresso -->
+    <div class="px-5 md:px-7 pt-5">
+      <div class="flex justify-between text-xs font-bold text-slate-500 mb-2">
+        <span id="progressoTexto">Etapa 1 de 5</span>
+        <span id="progressoPct">20%</span>
+      </div>
+      <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div id="progressoBarra" class="h-full bg-ninja-green transition-all" style="width:20%"></div>
+      </div>
+    </div>
+
+    <div class="px-5 md:px-7 py-6">
+      <!-- Etapa 1 -->
+      <div class="etapa" data-step="1">
+        <h2 class="text-2xl md:text-3xl font-black">Conta um pouco do seu negócio</h2>
+        <p class="mt-1 text-slate-600">Quanto mais detalhe, mais bonito sai o preview.</p>
+
+        <label class="block font-bold mt-6 mb-2">Nome do negócio</label>
+        <input id="campo_nome" type="text" placeholder="Ex: Salão da Mari" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:border-ninja-green outline-none">
+
+        <label class="block font-bold mt-5 mb-2">O que você faz / vende?</label>
+        <input id="campo_segmento" type="text" placeholder="Ex: salão de beleza com escova progressiva e manicure" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:border-ninja-green outline-none">
+      </div>
+
+      <!-- Etapa 2 -->
+      <div class="etapa hidden" data-step="2">
+        <h2 class="text-2xl md:text-3xl font-black">Onde e como te encontram?</h2>
+
+        <label class="block font-bold mt-6 mb-2">Cidade que você atende</label>
+        <input id="campo_cidade" type="text" placeholder="Ex: São Paulo - SP" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:border-ninja-green outline-none">
+
+        <label class="block font-bold mt-5 mb-2">Seu WhatsApp (com DDD)</label>
+        <input id="campo_zap" type="tel" placeholder="(11) 9 9999-9999" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:border-ninja-green outline-none">
+
+        <label class="block font-bold mt-5 mb-2">Seu e-mail</label>
+        <input id="campo_email" type="email" placeholder="seu@email.com" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:border-ninja-green outline-none">
+      </div>
+
+      <!-- Etapa 3 -->
+      <div class="etapa hidden" data-step="3">
+        <h2 class="text-2xl md:text-3xl font-black">Qual o objetivo principal?</h2>
+        <p class="mt-1 text-slate-600">Pra IA caprichar no foco certo.</p>
+        <div class="grid gap-2 mt-6">
+          <label class="flex items-center gap-3 border-2 border-slate-200 rounded-xl px-4 py-3 cursor-pointer hover:border-ninja-green has-[:checked]:border-ninja-green has-[:checked]:bg-ninja-green/5">
+            <input type="radio" name="objetivo" value="Receber clientes pelo WhatsApp" class="accent-ninja-green"> Receber clientes pelo WhatsApp
+          </label>
+          <label class="flex items-center gap-3 border-2 border-slate-200 rounded-xl px-4 py-3 cursor-pointer hover:border-ninja-green has-[:checked]:border-ninja-green has-[:checked]:bg-ninja-green/5">
+            <input type="radio" name="objetivo" value="Aparecer no Google" class="accent-ninja-green"> Aparecer no Google
+          </label>
+          <label class="flex items-center gap-3 border-2 border-slate-200 rounded-xl px-4 py-3 cursor-pointer hover:border-ninja-green has-[:checked]:border-ninja-green has-[:checked]:bg-ninja-green/5">
+            <input type="radio" name="objetivo" value="Vender mais" class="accent-ninja-green"> Vender mais
+          </label>
+          <label class="flex items-center gap-3 border-2 border-slate-200 rounded-xl px-4 py-3 cursor-pointer hover:border-ninja-green has-[:checked]:border-ninja-green has-[:checked]:bg-ninja-green/5">
+            <input type="radio" name="objetivo" value="Ter cara de empresa séria" class="accent-ninja-green"> Ter cara de empresa séria
+          </label>
+        </div>
+      </div>
+
+      <!-- Etapa 4 -->
+      <div class="etapa hidden" data-step="4">
+        <h2 class="text-2xl md:text-3xl font-black">Qual estilo combina mais?</h2>
+        <div class="grid grid-cols-2 gap-3 mt-6">
+          <label class="border-2 border-slate-200 rounded-xl p-4 cursor-pointer hover:border-ninja-green has-[:checked]:border-ninja-green has-[:checked]:bg-ninja-green/5 text-center">
+            <input type="radio" name="estilo" value="Moderno e clean" class="accent-ninja-green hidden">
+            <div class="text-3xl">✨</div><div class="mt-2 font-bold text-sm">Moderno e clean</div>
+          </label>
+          <label class="border-2 border-slate-200 rounded-xl p-4 cursor-pointer hover:border-ninja-green has-[:checked]:border-ninja-green has-[:checked]:bg-ninja-green/5 text-center">
+            <input type="radio" name="estilo" value="Sério e profissional" class="accent-ninja-green hidden">
+            <div class="text-3xl">💼</div><div class="mt-2 font-bold text-sm">Sério e profissional</div>
+          </label>
+          <label class="border-2 border-slate-200 rounded-xl p-4 cursor-pointer hover:border-ninja-green has-[:checked]:border-ninja-green has-[:checked]:bg-ninja-green/5 text-center">
+            <input type="radio" name="estilo" value="Colorido e divertido" class="accent-ninja-green hidden">
+            <div class="text-3xl">🎨</div><div class="mt-2 font-bold text-sm">Colorido e divertido</div>
+          </label>
+          <label class="border-2 border-slate-200 rounded-xl p-4 cursor-pointer hover:border-ninja-green has-[:checked]:border-ninja-green has-[:checked]:bg-ninja-green/5 text-center">
+            <input type="radio" name="estilo" value="Elegante e luxo" class="accent-ninja-green hidden">
+            <div class="text-3xl">👑</div><div class="mt-2 font-bold text-sm">Elegante e luxo</div>
+          </label>
+        </div>
+        <label class="block font-bold mt-6 mb-2">Cor preferida (opcional)</label>
+        <input id="campo_cor" type="text" placeholder="Ex: azul escuro, rosa, verde..." class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:border-ninja-green outline-none">
+      </div>
+
+      <!-- Etapa 5 -->
+      <div class="etapa hidden" data-step="5">
+        <h2 class="text-2xl md:text-3xl font-black">Quase lá! Mais alguma coisa?</h2>
+
+        <label class="block font-bold mt-6 mb-2">Liste 3 a 5 serviços que você oferece</label>
+        <textarea id="campo_servicos" rows="4" placeholder="Ex:&#10;- Corte feminino e masculino&#10;- Escova progressiva&#10;- Manicure e pedicure&#10;- Hidratação capilar" class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:border-ninja-green outline-none"></textarea>
+
+        <label class="block font-bold mt-5 mb-2">Algum diferencial que te destaca? (opcional)</label>
+        <input id="campo_diferencial" type="text" placeholder="Ex: 10 anos de experiência, atendimento aos domingos..." class="w-full border-2 border-slate-200 rounded-xl px-4 py-3 focus:border-ninja-green outline-none">
+      </div>
+    </div>
+
+    <!-- Botões -->
+    <div class="px-5 md:px-7 py-4 border-t border-slate-100 flex gap-3">
+      <button id="btnVoltar" onclick="navegarEtapa(-1)" class="hidden flex-1 border-2 border-slate-200 hover:border-slate-400 font-bold py-3 rounded-xl">Voltar</button>
+      <button id="btnAvancar" onclick="navegarEtapa(1)" class="flex-1 bg-ninja-green hover:bg-ninja-green2 text-white font-bold py-3 rounded-xl transition">Avançar</button>
+      <button id="btnGerar" onclick="gerarSite()" class="hidden flex-1 bg-ninja-green hover:bg-ninja-green2 text-white font-bold py-3 rounded-xl transition">⚡ Gerar meu preview</button>
+    </div>
+  </section>
+
+  <!-- ====== ESTADO: GERANDO ====== -->
+  <section id="estado-gerando" class="hidden bg-white rounded-2xl shadow-sm border border-slate-100 p-10 md:p-16 text-center">
+    <div class="inline-block w-20 h-20 border-8 border-slate-200 border-t-ninja-green rounded-full spinner"></div>
+    <h2 class="mt-8 text-2xl md:text-3xl font-black">Nossa IA está montando seu site...</h2>
+    <p class="mt-2 text-slate-600">Isso leva uns 30 a 60 segundos. Não feche a página.</p>
+    <div id="logsGerando" class="mt-8 text-sm text-slate-500 space-y-1 text-left max-w-md mx-auto"></div>
+  </section>
+
+  <!-- ====== ESTADO: PREVIEW ====== -->
+  <section id="estado-preview" class="hidden">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 md:p-7">
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-black">Tá aí o preview do seu site!</h2>
+          <p class="text-slate-600">Gostou? Aprove e finalize. Quer mudar algo? Refaz na hora.</p>
+        </div>
+        <div class="flex gap-2">
+          <button onclick="abrirPreviewNovaAba()" class="text-sm border-2 border-slate-200 hover:border-slate-400 px-4 py-2 rounded-lg font-bold">🔍 Ver em tela cheia</button>
+        </div>
+      </div>
+
+      <!-- Iframe do preview -->
+      <div class="mt-6 border-4 border-slate-200 rounded-2xl overflow-hidden bg-slate-100" style="height:600px">
+        <iframe id="previewFrame" class="w-full h-full" title="Preview do seu site"></iframe>
+      </div>
+
+      <!-- Ações -->
+      <div class="mt-6 grid md:grid-cols-2 gap-3">
+        <button onclick="aprovarEAvancar()" class="bg-ninja-green hover:bg-ninja-green2 text-white font-bold py-4 rounded-xl text-lg transition shadow-lg shadow-ninja-green/30">
+          ✅ Aprovar e finalizar
+        </button>
+        <button onclick="refazerPreview()" class="bg-white border-2 border-slate-200 hover:border-ninja-orange hover:text-ninja-orange font-bold py-4 rounded-xl text-lg transition">
+          🔄 Refazer preview
+        </button>
+      </div>
+      <p class="mt-3 text-xs text-slate-500 text-center">
+        💡 Esse é só um rascunho. Ajustes finais (cores exatas, fotos suas, textos extras) entram depois do pagamento.
+      </p>
+    </div>
+  </section>
+
+  <!-- ====== ESTADO: PAGAMENTO ====== -->
+  <section id="estado-pagamento" class="hidden">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 md:p-7">
+      <h2 class="text-2xl md:text-3xl font-black">Escolha seu pacote</h2>
+      <p class="mt-1 text-slate-600">Pix, boleto ou cartão. Pagamento 100% seguro pelo PagSeguro.</p>
+
+      <div class="mt-6 grid md:grid-cols-2 gap-4">
+        <label class="border-2 border-slate-200 rounded-2xl p-5 cursor-pointer hover:border-ninja-green has-[:checked]:border-ninja-green has-[:checked]:bg-ninja-green/5 transition">
+          <input type="radio" name="pacote_pag" value="basico" class="accent-ninja-green" checked>
+          <div class="mt-2">
+            <div class="text-xs font-black tracking-widest text-slate-500 uppercase">Básico</div>
+            <div class="mt-2 text-4xl font-black">R$ 297</div>
+            <div class="text-sm text-slate-500">único + R$ 97/mês</div>
+            <ul class="mt-4 text-sm space-y-1 text-slate-700">
+              <li>✓ 1 página profissional</li>
+              <li>✓ Botão WhatsApp</li>
+              <li>✓ Entrega em 5 dias</li>
+              <li>✓ 1 revisão grátis</li>
+            </ul>
+          </div>
+        </label>
+
+        <label class="border-2 border-ninja-green ring-2 ring-ninja-green/20 rounded-2xl p-5 cursor-pointer hover:border-ninja-green has-[:checked]:bg-ninja-green/5 transition relative">
+          <span class="absolute -top-3 left-4 bg-ninja-orange text-white text-xs font-black uppercase px-2 py-0.5 rounded">Mais escolhido</span>
+          <input type="radio" name="pacote_pag" value="padrao" class="accent-ninja-green">
+          <div class="mt-2">
+            <div class="text-xs font-black tracking-widest text-ninja-green uppercase">Padrão</div>
+            <div class="mt-2 text-4xl font-black">R$ 690</div>
+            <div class="text-sm text-slate-500">único + R$ 97/mês</div>
+            <ul class="mt-4 text-sm space-y-1 text-slate-700">
+              <li>✓ Até 4 páginas</li>
+              <li>✓ Formulário de contato</li>
+              <li>✓ SEO básico</li>
+              <li>✓ 2 revisões grátis</li>
+            </ul>
+          </div>
+        </label>
+      </div>
+
+      <button id="btnPagar" onclick="irPagar()" class="mt-6 w-full bg-ninja-green hover:bg-ninja-green2 text-white font-bold py-4 rounded-xl text-lg transition shadow-lg shadow-ninja-green/30">
+        💳 Pagar com PagSeguro
+      </button>
+
+      <div class="mt-4 flex items-center justify-center gap-3 text-xs text-slate-500">
+        <span>🔒 Pagamento seguro</span><span>•</span><span>🛡️ Garantia de 7 dias</span><span>•</span><span>💸 Pix, boleto ou cartão</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== ESTADO: OBRIGADO ====== -->
+  <section id="estado-obrigado" class="hidden bg-white rounded-2xl shadow-sm border border-slate-100 p-8 md:p-12 text-center">
+    <div class="text-7xl">🎉</div>
+    <h2 class="mt-4 text-3xl md:text-4xl font-black">Pronto, ninja!</h2>
+    <p class="mt-3 text-slate-600 text-lg">
+      A gente recebeu seu pedido. Agora é só aguardar o pagamento ser confirmado e em até 5 dias úteis seu site estará no ar.
+    </p>
+    <div class="mt-8 grid gap-3 max-w-md mx-auto">
+      <button onclick="abrirZapComBriefing()" class="bg-ninja-green hover:bg-ninja-green2 text-white font-bold py-4 rounded-xl">
+        💬 Mandar uma cópia pro WhatsApp
+      </button>
+      <a href="/" class="border-2 border-slate-200 hover:border-slate-400 font-bold py-4 rounded-xl">Voltar pra home</a>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============== BOTÃO FLUTUANTE WHATSAPP ============== -->
+<button onclick="abrirZap()" aria-label="Falar no WhatsApp"
+        class="pulse-zap fixed bottom-5 right-5 z-50 bg-ninja-green hover:bg-ninja-green2 text-white font-bold rounded-full shadow-2xl px-5 py-4 flex items-center gap-2 transition">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+  <span class="hidden sm:inline">WhatsApp</span>
+</button>
+
+<!-- ============== JS DO APP ============== -->
+<script>
+  // ===== STATE =====
+  let etapaAtual = 1;
+  const totalEtapas = 5;
+  let briefing = {};       // dados do cliente
+  let htmlGerado = '';     // HTML que a IA devolveu
+  let pacoteSelecionado = 'basico';
+
+  // pré-seleciona pacote vindo da URL (?pacote=padrao)
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('pacote') === 'padrao') pacoteSelecionado = 'padrao';
+
+  // ===== NAVEGAÇÃO BRIEFING =====
+  function navegarEtapa(delta){
+    if (delta === 1 && !validarEtapa(etapaAtual)) return;
+    const nova = etapaAtual + delta;
+    if (nova < 1 || nova > totalEtapas) return;
+    etapaAtual = nova;
+    atualizarUI();
+  }
+  function atualizarUI(){
+    document.querySelectorAll('.etapa').forEach(el=>{
+      el.classList.toggle('hidden', parseInt(el.dataset.step) !== etapaAtual);
+    });
+    const pct = Math.round((etapaAtual / totalEtapas) * 100);
+    document.getElementById('progressoTexto').textContent = `Etapa ${etapaAtual} de ${totalEtapas}`;
+    document.getElementById('progressoPct').textContent = pct + '%';
+    document.getElementById('progressoBarra').style.width = pct + '%';
+    document.getElementById('btnVoltar').classList.toggle('hidden', etapaAtual === 1);
+    document.getElementById('btnAvancar').classList.toggle('hidden', etapaAtual === totalEtapas);
+    document.getElementById('btnGerar').classList.toggle('hidden', etapaAtual !== totalEtapas);
+  }
+  function validarEtapa(n){
+    if (n === 1){
+      const nome = document.getElementById('campo_nome').value.trim();
+      const seg  = document.getElementById('campo_segmento').value.trim();
+      if (!nome || !seg){ alert('Preencha nome do negócio e o que você faz.'); return false; }
+    }
+    if (n === 2){
+      const cid = document.getElementById('campo_cidade').value.trim();
+      const zap = document.getElementById('campo_zap').value.trim();
+      const eml = document.getElementById('campo_email').value.trim();
+      if (!cid || !zap || !eml){ alert('Preencha cidade, WhatsApp e e-mail.'); return false; }
+    }
+    if (n === 3){
+      if (!document.querySelector('input[name="objetivo"]:checked')){ alert('Escolha o objetivo principal.'); return false; }
+    }
+    if (n === 4){
+      if (!document.querySelector('input[name="estilo"]:checked')){ alert('Escolha o estilo.'); return false; }
+    }
+    return true;
+  }
+
+  // ===== TROCA DE ESTADOS =====
+  function mostrarEstado(id){
+    ['estado-briefing','estado-gerando','estado-preview','estado-pagamento','estado-obrigado']
+      .forEach(s => document.getElementById(s).classList.toggle('hidden', s !== id));
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  // ===== COLETA O BRIEFING =====
+  function coletarBriefing(){
+    return {
+      nome:        document.getElementById('campo_nome').value.trim(),
+      segmento:    document.getElementById('campo_segmento').value.trim(),
+      cidade:      document.getElementById('campo_cidade').value.trim(),
+      whatsapp:    document.getElementById('campo_zap').value.trim(),
+      email:       document.getElementById('campo_email').value.trim(),
+      objetivo:    document.querySelector('input[name="objetivo"]:checked')?.value || '',
+      estilo:      document.querySelector('input[name="estilo"]:checked')?.value || '',
+      cor:         document.getElementById('campo_cor').value.trim(),
+      servicos:    document.getElementById('campo_servicos').value.trim(),
+      diferencial: document.getElementById('campo_diferencial').value.trim()
+    };
+  }
+
+  // ===== GERA O SITE =====
+  async function gerarSite(){
+    if (!validarEtapa(5)){ return; }
+    briefing = coletarBriefing();
+    mostrarEstado('estado-gerando');
+    logarEtapa('🧠 Lendo seu briefing...');
+
+    try {
+      logarEtapa('🎨 Escolhendo cores e layout...');
+      const resp = await fetch('/api/gerar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(briefing)
+      });
+
+      logarEtapa('✍️ IA escrevendo os textos de venda...');
+      if (!resp.ok){
+        const err = await resp.text();
+        throw new Error('Erro: ' + err);
+      }
+      const data = await resp.json();
+      htmlGerado = data.html;
+
+      logarEtapa('📦 Montando o preview...');
+      // injeta o HTML no iframe
+      const frame = document.getElementById('previewFrame');
+      frame.srcdoc = htmlGerado;
+      mostrarEstado('estado-preview');
+    } catch(e){
+      alert('Ops, deu erro pra gerar o site. Vamos tentar de novo? Se persistir, me chama no WhatsApp.\n\nDetalhe: ' + e.message);
+      mostrarEstado('estado-briefing');
+    }
+  }
+  function logarEtapa(txt){
+    const log = document.getElementById('logsGerando');
+    const item = document.createElement('div');
+    item.textContent = txt;
+    log.appendChild(item);
+  }
+
+  // ===== AÇÕES NO PREVIEW =====
+  function refazerPreview(){
+    if (!confirm('Quer refazer o preview com pequenas variações?')) return;
+    gerarSite();
+  }
+  function abrirPreviewNovaAba(){
+    if (!htmlGerado) return;
+    const blob = new Blob([htmlGerado], { type:'text/html' });
+    window.open(URL.createObjectURL(blob), '_blank');
+  }
+  function aprovarEAvancar(){
+    // marca o radio do pacote vindo da URL
+    document.querySelector(`input[name="pacote_pag"][value="${pacoteSelecionado}"]`).checked = true;
+    mostrarEstado('estado-pagamento');
+  }
+
+  // ===== PAGAMENTO =====
+  async function irPagar(){
+    pacoteSelecionado = document.querySelector('input[name="pacote_pag"]:checked').value;
+    const btn = document.getElementById('btnPagar');
+    btn.disabled = true;
+    btn.textContent = 'Gerando link de pagamento...';
+
+    try {
+      const resp = await fetch('/api/pagamento', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pacote: pacoteSelecionado, briefing })
+      });
+      if (!resp.ok){
+        const err = await resp.text();
+        throw new Error(err);
+      }
+      const data = await resp.json();
+      // redireciona pro PagSeguro
+      window.location.href = data.checkout_url;
+    } catch(e){
+      btn.disabled = false;
+      btn.textContent = '💳 Pagar com PagSeguro';
+      alert('Não consegui gerar o link de pagamento. Vamos pelo zap pra finalizar?\n\nDetalhe: ' + e.message);
+      abrirZapComBriefing();
+    }
+  }
+
+  // ===== WHATSAPP COM BRIEFING COMPLETO =====
+  function abrirZapComBriefing(){
+    const b = briefing.nome ? briefing : coletarBriefing();
+    const msg =
+`Oi! Acabei de pedir meu site na Getsitesninjas 🥷
+
+▪️ Negócio: ${b.nome || '-'}
+▪️ Segmento: ${b.segmento || '-'}
+▪️ Cidade: ${b.cidade || '-'}
+▪️ WhatsApp: ${b.whatsapp || '-'}
+▪️ E-mail: ${b.email || '-'}
+▪️ Objetivo: ${b.objetivo || '-'}
+▪️ Estilo: ${b.estilo || '-'}
+▪️ Cor: ${b.cor || '-'}
+▪️ Serviços: ${b.servicos || '-'}
+▪️ Diferencial: ${b.diferencial || '-'}
+▪️ Pacote: ${pacoteSelecionado}
+
+Bora finalizar!`;
+    abrirZap(msg);
+  }
+
+  // ===== INICIALIZAÇÃO =====
+  // se chegou de /criar.html?pacote=padrao etc, mostra mensagem
+  atualizarUI();
+</script>
+
+</body>
+</html>
