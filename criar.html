@@ -343,35 +343,50 @@
   }
 
   // ===== GERA O SITE =====
-  async function gerarSite(){
+  async function gerarSite(tentativa = 1){
     if (!validarEtapa(5)){ return; }
     briefing = coletarBriefing();
     mostrarEstado('estado-gerando');
-    logarEtapa('🧠 Lendo seu briefing...');
+    if (tentativa === 1) {
+      document.getElementById('logsGerando').innerHTML = '';
+      logarEtapa('🧠 Lendo seu briefing...');
+      logarEtapa('🎨 Escolhendo cores e layout...');
+      logarEtapa('✍️ IA escrevendo os textos de venda...');
+    } else {
+      logarEtapa(`🔁 Tentativa ${tentativa}: a IA tava acordando, agora vai mais rápido...`);
+    }
 
     try {
-      logarEtapa('🎨 Escolhendo cores e layout...');
       const resp = await fetch('/api/gerar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(briefing)
       });
 
-      logarEtapa('✍️ IA escrevendo os textos de venda...');
       if (!resp.ok){
+        // 504 = timeout (geralmente cold start). Tenta de novo até 2x.
+        if ((resp.status === 504 || resp.status === 502) && tentativa < 3) {
+          logarEtapa('⏳ Servidor demorou, tentando de novo...');
+          return gerarSite(tentativa + 1);
+        }
         const err = await resp.text();
-        throw new Error('Erro: ' + err);
+        throw new Error(`HTTP ${resp.status}: ${err.slice(0,200)}`);
       }
       const data = await resp.json();
       htmlGerado = data.html;
 
       logarEtapa('📦 Montando o preview...');
-      // injeta o HTML no iframe
       const frame = document.getElementById('previewFrame');
       frame.srcdoc = htmlGerado;
       mostrarEstado('estado-preview');
     } catch(e){
-      alert('Ops, deu erro pra gerar o site. Vamos tentar de novo? Se persistir, me chama no WhatsApp.\n\nDetalhe: ' + e.message);
+      // erro de rede também merece retry uma vez
+      if (tentativa < 3 && /timeout|fetch|network/i.test(e.message)) {
+        logarEtapa('⚠️ Falhou, tentando de novo...');
+        return gerarSite(tentativa + 1);
+      }
+      alert('Ops, deu erro pra gerar o site. Vamos finalizar pelo WhatsApp?\n\nDetalhe: ' + e.message);
+      abrirZapComBriefing();
       mostrarEstado('estado-briefing');
     }
   }

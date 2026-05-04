@@ -18,6 +18,7 @@ const SYSTEM_PROMPT = `Você é um especialista em criar landing pages que vende
 Sua tarefa: gerar UMA página HTML completa, em português brasileiro com TODOS OS ACENTOS CORRETOS, baseada no briefing do cliente.
 
 REGRAS OBRIGATÓRIAS:
+0. CONCISO: máximo 3500 tokens de saída. Sem comentários no HTML. Sem espaços e quebras desnecessárias. Use atributos curtos do Tailwind (ex: "p-4" em vez de "padding: 16px").
 1. Saída: APENAS o código HTML completo, do <!DOCTYPE html> até </html>. NADA antes ou depois. Sem markdown, sem \`\`\`html, sem explicações.
 2. Use Tailwind CSS oficial via CDN: <script src="https://cdn.tailwindcss.com"></script>
 3. Mobile-first (90% dos visitantes vêm de celular).
@@ -103,9 +104,12 @@ Gere o HTML completo agora. Lembre: APENAS o código, do <!DOCTYPE html> ao </ht
 
     const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+    // 🔧 max_tokens 4096 = ~30s na Vercel (cabe na maxDuration de 60s mesmo com cold start)
+    //    Se quiser HTML maior, suba pra 6000 mas pode dar timeout em primeira chamada do dia.
     const message = await client.messages.create({
       model: MODELO,
-      max_tokens: 8000,
+      max_tokens: 4096,
+      temperature: 0.7,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: userPrompt }]
     });
