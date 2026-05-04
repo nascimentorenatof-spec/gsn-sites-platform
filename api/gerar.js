@@ -140,6 +140,7 @@ Gere o HTML completo agora. Lembre: APENAS o código, do <!DOCTYPE html> ao </ht
         const lead = await salvarLead({
           status: STATUS.PREVIEW_GERADO,
           briefing,
+          html_preview: html,                  // 🔧 salva o HTML completo pra você baixar depois
           html_preview_chars: html.length
         });
         leadId = lead.id;

@@ -83,14 +83,23 @@ export async function buscarLeadPorReference(referenceId){
 }
 
 // lista N leads ordenados por data (mais novos primeiro)
-export async function listarLeads(limit = 100, offset = 0){
-  // ZREVRANGE pega do mais novo pro mais velho
+// Por padrão NÃO inclui html_preview (HTML inteiro pesa muito na listagem).
+// Use buscarLead(id) pra pegar 1 lead com tudo.
+export async function listarLeads(limit = 100, offset = 0, opts = {}){
   const ids = await chamar(['ZREVRANGE', 'leads:zset', offset, offset + limit - 1]);
   if (!ids || !ids.length) return [];
-  // pega cada lead em paralelo (MGET)
   const chaves = ids.map(id => `lead:${id}`);
   const jsons = await chamar(['MGET', ...chaves]);
-  return jsons.map(j => j ? JSON.parse(j) : null).filter(Boolean);
+  return jsons
+    .map(j => j ? JSON.parse(j) : null)
+    .filter(Boolean)
+    .map(lead => {
+      if (!opts.incluirHtml) {
+        const { html_preview, ...resto } = lead;
+        return resto;
+      }
+      return lead;
+    });
 }
 
 // ============== STATS / CONTADORES ==============
