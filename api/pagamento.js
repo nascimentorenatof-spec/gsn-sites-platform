@@ -68,9 +68,16 @@ export default async function handler(req, res) {
     }
 
     // === CRIA ORDER NO PAGSEGURO ===
-    const baseUrl = process.env.PAGSEGURO_ENV === 'production'
-      ? 'https://api.pagseguro.com'
-      : 'https://sandbox.api.pagseguro.com';
+    // Aceita 2 formatos de env var:
+    //   PAGSEGURO_ENV = "production" / "sandbox"   (preferido)
+    //   PAGSEGURO_SANDBOX = "true" / "false"        (compatibilidade com setup antigo)
+    const ehSandbox =
+      process.env.PAGSEGURO_ENV
+        ? process.env.PAGSEGURO_ENV !== 'production'
+        : (process.env.PAGSEGURO_SANDBOX || 'true').toLowerCase() !== 'false';
+    const baseUrl = ehSandbox
+      ? 'https://sandbox.api.pagseguro.com'
+      : 'https://api.pagseguro.com';
 
     const orderId = `gsn-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
     const origem = req.headers.origin || `https://${req.headers.host}`;
